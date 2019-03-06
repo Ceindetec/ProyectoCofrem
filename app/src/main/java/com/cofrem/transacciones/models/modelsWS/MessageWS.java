@@ -9,7 +9,7 @@ public class MessageWS {
 
     //Modelado de Properties y Keys
     public static final String PROPERTY_MESSAGE = "mensaje";
-    public static final String PROPERTY_TRANSAC_LISTS= "transacListResult";
+    public static final String PROPERTY_TRANSAC_LISTS = "transacListResult";
     public static final String KEY_CODIGO_MESSAGE = "codigoMensaje";
     public static final String KEY_DETALLE_MESSAGE = "detalleMensaje";
 

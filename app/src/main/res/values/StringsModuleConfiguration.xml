@@ -9,6 +9,7 @@
     <string name="configuration_text_button_configuracion_dispositivo">Configuración del Dispositivo</string>
     <string name="configuration_text_button_configuracion_printer">Configuración de la Impresora</string>
     <string name="configuration_text_button_prueba">Prueba Comunicación</string>
+    <string name="configuration_text_button_ultima_transaccion">Validar Última Transacción</string>
 
     <string name="configuration_text_button_probar_printer">Probar la Impresora</string>
 
@@ -16,6 +17,8 @@
     <string name="configuration_text_title_configuracion">Configuración</string>
     <string name="configuration_text_title_configuracion_printer">Configurar Impresora</string>
     <string name="configuration_text_title_conexion">Comunicación</string>
+    <string name="configuration_text_title_validar">Validación</string>
+    <string name="configuration_text_title_ultima">Última Transacción</string>
 
     <!-- Textos adicionales -->
     <string name="configuration_text_ingresar_pass_tecnico">Ingrese contraseña de administración:</string>
@@ -35,6 +38,10 @@
     <string name="configuration_text_estado_conexion">Estado de la conexión</string>
 
     <string name="configuration_text_exitosa">Exitosa</string>
+
+    <string name="configuration_text_ultima_correcta">La Última Transacción coincide con el servidor</string>
+
+    <string name="configuration_text_ultima_erronea">La Última Transacción NO coincide con el servidor</string>
 
     <!-- Textos register configuration -->
     <string name="configuration_error_format_puerto">El puerto debe tener entre 1 y 5 caracteres</string>
@@ -73,6 +80,6 @@
     <string name="configuration_text_registro_printer_error">Error en el registro de la configuración de la impresora</string>
 
 
-    <string name="configuration_text_esperando_respuesta">Estableciendo comunicaón con el servidor</string>
+    <string name="configuration_text_esperando_respuesta">Estableciendo comunicación con el servidor</string>
 
 </resources>

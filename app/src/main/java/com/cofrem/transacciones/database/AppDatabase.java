@@ -14,11 +14,11 @@ import com.cofrem.transacciones.models.ConfigurationPrinter;
 import com.cofrem.transacciones.models.Configurations;
 import com.cofrem.transacciones.models.Establishment;
 import com.cofrem.transacciones.models.InfoHeaderApp;
+import com.cofrem.transacciones.models.Transaccion;
 import com.cofrem.transacciones.models.modelsWS.modelEstablecimiento.ConexionEstablecimiento;
 import com.cofrem.transacciones.models.modelsWS.modelEstablecimiento.Establecimiento;
 import com.cofrem.transacciones.models.modelsWS.modelEstablecimiento.InformacionEstablecimiento;
 import com.cofrem.transacciones.models.modelsWS.modelTransaccion.InformacionTransaccion;
-import com.cofrem.transacciones.models.Transaccion;
 import com.cofrem.transacciones.modules.moduleTransaction.anulacionScreen.events.AnulacionScreenEvent;
 
 import java.text.SimpleDateFormat;
@@ -1159,7 +1159,7 @@ public final class AppDatabase extends SQLiteOpenHelper {
     public void dropTransactions(String num) {
         getWritableDatabase().delete(
                 DatabaseManager.TableTransacciones.TABLE_NAME_TRANSACCIONES,
-                DatabaseManager.TableTransacciones.COLUMN_TRANSACCIONES_NUMERO_CARGO + " = '" + num +"'",
+                DatabaseManager.TableTransacciones.COLUMN_TRANSACCIONES_NUMERO_CARGO + " = '" + num + "'",
                 null
         );
     }

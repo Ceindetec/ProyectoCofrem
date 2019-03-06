@@ -2,7 +2,6 @@ package com.cofrem.transacciones.modules.moduleConfiguration.registerConfigurati
 
 import android.content.Context;
 
-import com.cofrem.transacciones.modules.moduleConfiguration.registerConfigurationScreen.events.RegisterConfigurationScreenEvent;
 import com.cofrem.transacciones.database.AppDatabase;
 import com.cofrem.transacciones.global.InfoGlobalTransaccionSOAP;
 import com.cofrem.transacciones.lib.EventBus;
@@ -11,10 +10,11 @@ import com.cofrem.transacciones.lib.KsoapAsync;
 import com.cofrem.transacciones.lib.MD5;
 import com.cofrem.transacciones.models.Configurations;
 import com.cofrem.transacciones.models.modelsWS.MessageWS;
+import com.cofrem.transacciones.models.modelsWS.TransactionWS;
 import com.cofrem.transacciones.models.modelsWS.modelEstablecimiento.ConexionEstablecimiento;
 import com.cofrem.transacciones.models.modelsWS.modelEstablecimiento.Establecimiento;
 import com.cofrem.transacciones.models.modelsWS.modelEstablecimiento.InformacionEstablecimiento;
-import com.cofrem.transacciones.models.modelsWS.TransactionWS;
+import com.cofrem.transacciones.modules.moduleConfiguration.registerConfigurationScreen.events.RegisterConfigurationScreenEvent;
 
 import org.ksoap2.serialization.SoapObject;
 

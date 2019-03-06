@@ -2,8 +2,8 @@ package com.cofrem.transacciones.modules.moduleTransaction.creditoScreen;
 
 import android.content.Context;
 
-import com.cofrem.transacciones.modules.moduleTransaction.creditoScreen.events.CreditoScreenEvent;
 import com.cofrem.transacciones.models.Transaccion;
+import com.cofrem.transacciones.modules.moduleTransaction.creditoScreen.events.CreditoScreenEvent;
 
 public interface CreditoScreenPresenter {
 

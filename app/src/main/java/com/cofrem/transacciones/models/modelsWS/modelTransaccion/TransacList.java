@@ -20,8 +20,6 @@ public class TransacList {
     private static final String KEY_CIERRE_ESTADO = "estado";
 
 
-
-
     private String codigoTerminal;
     private String numeroAprobacion;
     private String cedulaUsuario;
@@ -32,7 +30,6 @@ public class TransacList {
     }
 
     /**
-     *
      * @param codigoTerminal
      * @param numeroAprobacion
      * @param cedulaUsuario
@@ -47,7 +44,7 @@ public class TransacList {
         this.estado = estado;
     }
 
-    public TransacList(SoapObject soap){
+    public TransacList(SoapObject soap) {
 
         this.codigoTerminal = soap.getPropertyAsString(KEY_CIERRE_CODIGO_TERMINAL).equals("anyType{}") ? "" : soap.getPropertyAsString(KEY_CIERRE_CODIGO_TERMINAL);
         this.numeroAprobacion = soap.getPropertyAsString(KEY_CIERRE_NUMERO_APROBACION).equals("anyType{}") ? "" : soap.getPropertyAsString(KEY_CIERRE_NUMERO_APROBACION);

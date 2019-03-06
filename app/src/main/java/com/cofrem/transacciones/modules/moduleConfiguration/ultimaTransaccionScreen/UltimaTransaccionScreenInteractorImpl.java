@@ -1,10 +1,8 @@
-package com.cofrem.transacciones.modules.moduleTransaction.creditoScreen;
+package com.cofrem.transacciones.modules.moduleConfiguration.ultimaTransaccionScreen;
 
 import android.content.Context;
 
-import com.cofrem.transacciones.models.Transaccion;
-
-class CreditoScreenInteractorImpl implements CreditoScreenInteractor {
+class UltimaTransaccionScreenInteractorImpl implements UltimaTransaccionScreenInteractor {
     /**
      * #############################################################################################
      * Declaracion de componentes y variables
@@ -16,18 +14,19 @@ class CreditoScreenInteractorImpl implements CreditoScreenInteractor {
      * Instanciamientos de las clases
      * #############################################################################################
      */
-    private CreditoScreenRepository creditoScreenRepository;
+    private UltimaTransaccionScreenRepository ultimaTransaccionScreenRepository;
 
     /**
      * #############################################################################################
      * Constructor de la clase
      * #############################################################################################
      */
-    public CreditoScreenInteractorImpl() {
+    public UltimaTransaccionScreenInteractorImpl() {
 
-        creditoScreenRepository = new CreditoScreenRepositoryImpl();
+        ultimaTransaccionScreenRepository = new UltimaTransaccionScreenRepositoryImpl();
 
     }
+
     /**
      * #############################################################################################
      * Metodos sobrecargados de la interface
@@ -35,20 +34,11 @@ class CreditoScreenInteractorImpl implements CreditoScreenInteractor {
      */
 
     /**
-     * Metodo para obtener el numero de tarjeta desde el dispositivo
-     *
      * @param context
-     * @param transaccion
      */
     @Override
-    public void registrarTransaccion(Context context, Transaccion transaccion) {
-        //Valida el acceso a la app
-        creditoScreenRepository.registrarTransaccion(context, transaccion);
+    public void validarUltimaTransaccion(Context context) {
+        ultimaTransaccionScreenRepository.validarUltimaTransaccion(context);
     }
 
-    @Override
-    public void imprimirRecibo(Context context, String stringCopia) {
-        //Imprime recibo
-        creditoScreenRepository.imprimirRecibo(context, stringCopia);
-    }
 }

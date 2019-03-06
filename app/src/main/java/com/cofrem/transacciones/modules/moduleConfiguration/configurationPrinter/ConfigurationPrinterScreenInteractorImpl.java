@@ -29,6 +29,7 @@ class ConfigurationPrinterScreenInteractorImpl implements ConfigurationPrinterSc
         configurationPrinterScreenRepository = new ConfigurationPrinterScreenRepositoryImpl();
 
     }
+
     /**
      * #############################################################################################
      * Metodos sobrecargados de la interface
@@ -37,13 +38,13 @@ class ConfigurationPrinterScreenInteractorImpl implements ConfigurationPrinterSc
 
     @Override
     public void saveConfigurationPrinter(Context context, ConfigurationPrinter configuration) {
-        configurationPrinterScreenRepository.saveConfigurationPrinter(context,configuration);
+        configurationPrinterScreenRepository.saveConfigurationPrinter(context, configuration);
     }
 
 
     @Override
     public void imprimirPrueba(Context context, int gray) {
-        configurationPrinterScreenRepository.imprimirPrueba(context,gray);
+        configurationPrinterScreenRepository.imprimirPrueba(context, gray);
     }
 
     /**

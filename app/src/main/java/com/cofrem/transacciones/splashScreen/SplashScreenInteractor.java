@@ -6,9 +6,9 @@ public interface SplashScreenInteractor {
 
     /**
      * Metodo que verifica:
-     *  - La existencia de la configuración inicial
-     *  - En caso de no existir mostrará la vista de configuración
-     *  - En caso de existir validara el acceso
+     * - La existencia de la configuración inicial
+     * - En caso de no existir mostrará la vista de configuración
+     * - En caso de existir validara el acceso
      *
      * @param context
      */
@@ -16,9 +16,9 @@ public interface SplashScreenInteractor {
 
     /**
      * Metodo que verifica:
-     *  - Conexion a internet
-     *  - Existencia datos en DB interna
-     *  - Coherencia de datos con el servidor
+     * - Conexion a internet
+     * - Existencia datos en DB interna
+     * - Coherencia de datos con el servidor
      *
      * @param context
      */

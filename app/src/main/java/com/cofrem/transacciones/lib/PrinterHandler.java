@@ -27,19 +27,6 @@ public class PrinterHandler {
     }
 
     /**
-     * metodo publico que recibe un array de rows para imprimir
-     * Retorna el estado de la impresora
-     *
-     * @param modelRow
-     * @return int
-     */
-    public int imprimerTexto(ArrayList<PrintRow> modelRow) {
-        Rows = modelRow;
-        return imprimir();
-    }
-
-
-    /**
      * metodo privado encargado de comunicarse con la clase Printer
      * Retorna el estado de la impresora
      *
@@ -160,6 +147,17 @@ public class PrinterHandler {
         return "* * * " + num.substring(punto, length);
     }
 
+    /**
+     * metodo publico que recibe un array de rows para imprimir
+     * Retorna el estado de la impresora
+     *
+     * @param modelRow
+     * @return int
+     */
+    public int imprimerTexto(ArrayList<PrintRow> modelRow) {
+        Rows = modelRow;
+        return imprimir();
+    }
 
     public boolean testPrinterDevice() {
 

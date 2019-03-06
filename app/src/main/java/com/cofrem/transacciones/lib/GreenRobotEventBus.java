@@ -8,19 +8,14 @@ public class GreenRobotEventBus implements EventBus {
     de.greenrobot.event.EventBus eventBus;
 
 
-    //Singleton para el manejo de una instancia unica del bus de eventos
-    private static class SingletonEventBus {
-        private static final GreenRobotEventBus INSTANCE = new GreenRobotEventBus();
+    //Constructor de la clase para la inicializacion del bus de eventos
+    public GreenRobotEventBus() {
+        this.eventBus = de.greenrobot.event.EventBus.getDefault();
     }
 
     //Metodo publico que maneja la instancia del bus de eventos
     public static GreenRobotEventBus getInstance() {
         return SingletonEventBus.INSTANCE;
-    }
-
-    //Constructor de la clase para la inicializacion del bus de eventos
-    public GreenRobotEventBus() {
-        this.eventBus = de.greenrobot.event.EventBus.getDefault();
     }
 
     /**
@@ -55,5 +50,10 @@ public class GreenRobotEventBus implements EventBus {
     public void post(Object Event) {
         //Llamado al metodo de manejo de eventos de la libreria eventbus de GreenRobot
         eventBus.post(Event);
+    }
+
+    //Singleton para el manejo de una instancia unica del bus de eventos
+    private static class SingletonEventBus {
+        private static final GreenRobotEventBus INSTANCE = new GreenRobotEventBus();
     }
 }

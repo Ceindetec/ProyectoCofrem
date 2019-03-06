@@ -19,6 +19,6 @@ public interface CreditoScreenRepository {
      *
      * @param context
      */
-    void imprimirRecibo(Context context,String stringCopia);
+    void imprimirRecibo(Context context, String stringCopia);
 
 }

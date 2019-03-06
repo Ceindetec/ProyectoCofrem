@@ -44,7 +44,7 @@ class ReimpresionScreenInteractorImpl implements ReimpresionScreenInteractor {
 
     @Override
     public void validarExistenciaReciboConNumCargo(Context context, String numCargo) {
-        reimpresionScreenRepository.validarExistenciaReciboConNumCargo(context,numCargo);
+        reimpresionScreenRepository.validarExistenciaReciboConNumCargo(context, numCargo);
     }
 
     @Override
@@ -83,8 +83,6 @@ class ReimpresionScreenInteractorImpl implements ReimpresionScreenInteractor {
      * Metodos sobrecargados de la interface
      * #############################################################################################
      */
-
-
 
 
 }

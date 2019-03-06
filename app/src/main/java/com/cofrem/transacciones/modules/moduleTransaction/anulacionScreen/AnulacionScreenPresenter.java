@@ -2,8 +2,8 @@ package com.cofrem.transacciones.modules.moduleTransaction.anulacionScreen;
 
 import android.content.Context;
 
-import com.cofrem.transacciones.modules.moduleTransaction.anulacionScreen.events.AnulacionScreenEvent;
 import com.cofrem.transacciones.models.Transaccion;
+import com.cofrem.transacciones.modules.moduleTransaction.anulacionScreen.events.AnulacionScreenEvent;
 
 public interface AnulacionScreenPresenter {
 

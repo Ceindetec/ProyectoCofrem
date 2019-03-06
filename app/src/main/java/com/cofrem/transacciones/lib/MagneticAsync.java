@@ -8,22 +8,15 @@ import com.telpo.tps550.api.magnetic.MagneticCard;
 
 public class MagneticAsync extends AsyncTask<Void, Integer, String[]> {
 
-    /**
-     * Interface para el callback de datos
-     */
-    public interface ResponseMagneticAsync {
-        String[] processFinish(String[] magneticResponse);
-    }
-
     //Call back interface
     public ResponseMagneticAsync delegate = null;
-
 
     /**
      * Constructor vacio de la clase
      */
     public MagneticAsync() {
     }
+
 
     /**
      * Constructor de la clase que recibe una instancia de la interface ResponseMagneticAsync
@@ -119,6 +112,13 @@ public class MagneticAsync extends AsyncTask<Void, Integer, String[]> {
 
         return resultTestMagneticDevice;
 
+    }
+
+    /**
+     * Interface para el callback de datos
+     */
+    public interface ResponseMagneticAsync {
+        String[] processFinish(String[] magneticResponse);
     }
 
 }

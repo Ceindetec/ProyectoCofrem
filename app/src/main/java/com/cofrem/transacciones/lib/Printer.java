@@ -32,18 +32,18 @@ import java.util.List;
  */
 
 public class Printer {
-    private static final String TAG = "Printer";
-    private static final int MODE_TEXT = 0;
-    private static final int MODE_PIC = 1;
-    private static final int MODE_BAR = 2;
-    private static final int ACTION_PRINT = 0;
-    private static final int ACTION_STATUS = 1;
     public static final int STATUS_OK = 0;
     public static final int STATUS_NO_PAPER = -1001;
     public static final int STATUS_OVER_HEAT = -1002;
     public static final int STATUS_OVER_FLOW = -1003;
     public static final int STATUS_DISCONNECT = -1004;
     public static final int STATUS_UNKNOWN = -9999;
+    private static final String TAG = "Printer";
+    private static final int MODE_TEXT = 0;
+    private static final int MODE_PIC = 1;
+    private static final int MODE_BAR = 2;
+    private static final int ACTION_PRINT = 0;
+    private static final int ACTION_STATUS = 1;
     private static List<PrintItem> printList = null;
     private static HandlerThread handlerThread = null;
     private static Handler handler = null;
@@ -55,9 +55,9 @@ public class Printer {
     }
 
     public static synchronized void printText(String txt, StyleConfig style) {
-        if(txt != null && printList != null) {
+        if (txt != null && printList != null) {
             StyleConfig styleConfig = new StyleConfig();
-            if(style != null) {
+            if (style != null) {
                 styleConfig.fontFamily = style.fontFamily;
                 styleConfig.fontSize = style.fontSize;
                 styleConfig.fontStyle = style.fontStyle;
@@ -72,13 +72,13 @@ public class Printer {
     }
 
     public static synchronized void printBarCode(String barcode, StyleConfig.Align align) {
-        if(barcode != null && printList != null) {
-            if(barcode_mode < 0) {
+        if (barcode != null && printList != null) {
+            if (barcode_mode < 0) {
                 barcode_mode = 0;
 
                 try {
                     String bitmap = ThermalPrinter.getVersion().trim();
-                    if(bitmap.substring(bitmap.length() - 8).compareTo("20151106") >= 0) {
+                    if (bitmap.substring(bitmap.length() - 8).compareTo("20151106") >= 0) {
                         barcode_mode = 1;
                     }
                 } catch (TelpoException var5) {
@@ -86,7 +86,7 @@ public class Printer {
                 }
             }
 
-            if(barcode_mode == 1) {
+            if (barcode_mode == 1) {
                 StyleConfig bitmap1 = new StyleConfig();
                 bitmap1.align = align;
                 Printer.PrintItem e = new Printer.PrintItem(barcode, bitmap1);
@@ -106,7 +106,7 @@ public class Printer {
     }
 
     public static synchronized void printQRCode(String QRCode, StyleConfig.Align align) {
-        if(QRCode != null && printList != null) {
+        if (QRCode != null && printList != null) {
             try {
                 Bitmap bitmap = CreateCode(QRCode, BarcodeFormat.QR_CODE, 256, 256);
                 Bitmap e = Bitmap.createBitmap(bitmap, 40, 40, bitmap.getWidth() - 80, bitmap.getHeight() - 80);
@@ -120,9 +120,9 @@ public class Printer {
     }
 
     public static synchronized void printImage(String path, StyleConfig.Align align) {
-        if(path != null && printList != null) {
+        if (path != null && printList != null) {
             File file = new File(path);
-            if(file.exists()) {
+            if (file.exists()) {
                 Bitmap bitmap = BitmapFactory.decodeFile(path);
                 Bitmap cutBitmap = Bitmap.createBitmap(bitmap, 0, 16, bitmap.getWidth(), bitmap.getHeight() - 32);
                 Bitmap newBitmap = adjustBitmap(cutBitmap, align);
@@ -132,10 +132,10 @@ public class Printer {
         }
     }
 
-    public static synchronized void printImage(Bitmap cutBitmap, StyleConfig.Align align,int gray,int lineSpace) {
-        if(cutBitmap != null && printList != null) {
-                Bitmap newBitmap = adjustBitmap(cutBitmap, align);
-                printList.add(new Printer.PrintItem(newBitmap, new StyleConfig(align,gray,lineSpace)));
+    public static synchronized void printImage(Bitmap cutBitmap, StyleConfig.Align align, int gray, int lineSpace) {
+        if (cutBitmap != null && printList != null) {
+            Bitmap newBitmap = adjustBitmap(cutBitmap, align);
+            printList.add(new Printer.PrintItem(newBitmap, new StyleConfig(align, gray, lineSpace)));
 
         }
     }
@@ -155,10 +155,10 @@ public class Printer {
 
         try {
             int e = ThermalPrinter.checkStatus();
-            if(e != 0) {
+            if (e != 0) {
                 String msg;
                 short e1;
-                switch(e) {
+                switch (e) {
                     case 1:
                         e1 = -1001;
                         msg = "Printer out of paper";
@@ -178,14 +178,14 @@ public class Printer {
                 }
 
                 ThermalPrinter.reset();
-                if(commitCallback != null) {
+                if (commitCallback != null) {
                     commitCallback.printerStatus(e1, msg);
                 }
 
                 return;
             }
         } catch (DeviceNotOpenException var7) {
-            if(commitCallback != null) {
+            if (commitCallback != null) {
                 commitCallback.printerStatus(-1004, "Printer disconnect");
             }
 
@@ -194,11 +194,11 @@ public class Printer {
             var8.printStackTrace();
         }
 
-        while(printIterator.hasNext()) {
-            Printer.PrintItem printItem = (Printer.PrintItem)printIterator.next();
-            if(printItem.mode == 1) {
+        while (printIterator.hasNext()) {
+            Printer.PrintItem printItem = (Printer.PrintItem) printIterator.next();
+            if (printItem.mode == 1) {
                 try {
-                    if(printFlag) {
+                    if (printFlag) {
                         ThermalPrinter.printString();
                         printFlag = false;
                         Thread.sleep(200L);
@@ -210,35 +210,35 @@ public class Printer {
                     ThermalPrinter.walkPaper(printItem.styleConfig.lineSpace);
                 } catch (DeviceNotOpenException var19) {
                     var19.printStackTrace();
-                    if(commitCallback != null) {
+                    if (commitCallback != null) {
                         commitCallback.printerStatus(-1004, "Printer disconnect");
                     }
 
                     return;
                 } catch (NoPaperException var20) {
                     var20.printStackTrace();
-                    if(commitCallback != null) {
+                    if (commitCallback != null) {
                         commitCallback.printerStatus(-1001, "Printer out of paper");
                     }
 
                     return;
                 } catch (NotEnoughBufferException var21) {
                     var21.printStackTrace();
-                    if(commitCallback != null) {
+                    if (commitCallback != null) {
                         commitCallback.printerStatus(-1003, "Printer over flow");
                     }
 
                     return;
                 } catch (OverHeatException var22) {
                     var22.printStackTrace();
-                    if(commitCallback != null) {
+                    if (commitCallback != null) {
                         commitCallback.printerStatus(-1002, "Printer over heat");
                     }
 
                     return;
                 } catch (Exception var23) {
                     var23.printStackTrace();
-                    if(commitCallback != null) {
+                    if (commitCallback != null) {
                         commitCallback.printerStatus(-9999, "Printer error");
                     }
 
@@ -246,13 +246,13 @@ public class Printer {
                 }
             } else {
                 try {
-                    if(printItem.styleConfig.fontSize == StyleConfig.FontSize.F1) {
+                    if (printItem.styleConfig.fontSize == StyleConfig.FontSize.F1) {
                         ThermalPrinter.setFontSize(1);
                         ThermalPrinter.enlargeFontSize(1, 1);
-                    } else if(printItem.styleConfig.fontSize == StyleConfig.FontSize.F3) {
+                    } else if (printItem.styleConfig.fontSize == StyleConfig.FontSize.F3) {
                         ThermalPrinter.setFontSize(2);
                         ThermalPrinter.enlargeFontSize(1, 1);
-                    } else if(printItem.styleConfig.fontSize == StyleConfig.FontSize.F4) {
+                    } else if (printItem.styleConfig.fontSize == StyleConfig.FontSize.F4) {
                         ThermalPrinter.setFontSize(1);
                         ThermalPrinter.enlargeFontSize(2, 2);
                     } else {
@@ -260,9 +260,9 @@ public class Printer {
                         ThermalPrinter.enlargeFontSize(1, 2);
                     }
 
-                    if(printItem.styleConfig.align == StyleConfig.Align.CENTER) {
+                    if (printItem.styleConfig.align == StyleConfig.Align.CENTER) {
                         ThermalPrinter.setAlgin(1);
-                    } else if(printItem.styleConfig.align == StyleConfig.Align.RIGHT) {
+                    } else if (printItem.styleConfig.align == StyleConfig.Align.RIGHT) {
                         ThermalPrinter.setAlgin(2);
                     } else {
                         ThermalPrinter.setAlgin(0);
@@ -270,18 +270,18 @@ public class Printer {
 
                     ThermalPrinter.setGray(printItem.styleConfig.gray);
                     ThermalPrinter.setLineSpace(printItem.styleConfig.lineSpace);
-                    if(printItem.string.length() > 0) {
-                        if(printItem.mode == 0) {
+                    if (printItem.string.length() > 0) {
+                        if (printItem.mode == 0) {
                             ThermalPrinter.addString(printItem.string);
-                            if(printItem.styleConfig.newLine) {
+                            if (printItem.styleConfig.newLine) {
                                 ThermalPrinter.addString("\n");
                             }
-                        } else if(printItem.mode == 2) {
+                        } else if (printItem.mode == 2) {
                             ThermalPrinter.addBarcode(printItem.string);
                         }
                     }
 
-                    if(printItem.feed > 0) {
+                    if (printItem.feed > 0) {
                         ThermalPrinter.printStringAndWalk(0, 0, printItem.feed);
                         printFlag = false;
                     } else {
@@ -289,38 +289,37 @@ public class Printer {
                     }
 
 
-
                 } catch (DeviceNotOpenException var14) {
                     var14.printStackTrace();
-                    if(commitCallback != null) {
+                    if (commitCallback != null) {
                         commitCallback.printerStatus(-1004, "Printer disconnect");
                     }
 
                     return;
                 } catch (NoPaperException var15) {
                     var15.printStackTrace();
-                    if(commitCallback != null) {
+                    if (commitCallback != null) {
                         commitCallback.printerStatus(-1001, "Printer out of paper");
                     }
 
                     return;
                 } catch (NotEnoughBufferException var16) {
                     var16.printStackTrace();
-                    if(commitCallback != null) {
+                    if (commitCallback != null) {
                         commitCallback.printerStatus(-1003, "Printer over flow");
                     }
 
                     return;
                 } catch (OverHeatException var17) {
                     var17.printStackTrace();
-                    if(commitCallback != null) {
+                    if (commitCallback != null) {
                         commitCallback.printerStatus(-1002, "Printer over heat");
                     }
 
                     return;
                 } catch (Exception var18) {
                     var18.printStackTrace();
-                    if(commitCallback != null) {
+                    if (commitCallback != null) {
                         commitCallback.printerStatus(-9999, "Printer error");
                     }
 
@@ -329,40 +328,40 @@ public class Printer {
             }
         }
 
-        if(printFlag) {
+        if (printFlag) {
             try {
                 ThermalPrinter.printString();
             } catch (DeviceNotOpenException var9) {
                 var9.printStackTrace();
-                if(commitCallback != null) {
+                if (commitCallback != null) {
                     commitCallback.printerStatus(-1004, "Printer disconnect");
                 }
 
                 return;
             } catch (NoPaperException var10) {
                 var10.printStackTrace();
-                if(commitCallback != null) {
+                if (commitCallback != null) {
                     commitCallback.printerStatus(-1001, "Printer out of paper");
                 }
 
                 return;
             } catch (NotEnoughBufferException var11) {
                 var11.printStackTrace();
-                if(commitCallback != null) {
+                if (commitCallback != null) {
                     commitCallback.printerStatus(-1003, "Printer over flow");
                 }
 
                 return;
             } catch (OverHeatException var12) {
                 var12.printStackTrace();
-                if(commitCallback != null) {
+                if (commitCallback != null) {
                     commitCallback.printerStatus(-1002, "Printer over heat");
                 }
 
                 return;
             } catch (Exception var13) {
                 var13.printStackTrace();
-                if(commitCallback != null) {
+                if (commitCallback != null) {
                     commitCallback.printerStatus(-9999, "Printer error");
                 }
 
@@ -370,19 +369,19 @@ public class Printer {
             }
         }
 
-        if(commitCallback != null) {
+        if (commitCallback != null) {
             commitCallback.printerStatus(0, "Printer OK");
         }
 
     }
 
     public static synchronized void commitOperation() {
-        if(printList != null && handler != null) {
+        if (printList != null && handler != null) {
             ArrayList list = new ArrayList(printList.size());
             Iterator iterator = printList.iterator();
 
-            while(iterator.hasNext()) {
-                list.add((Printer.PrintItem)iterator.next());
+            while (iterator.hasNext()) {
+                list.add((Printer.PrintItem) iterator.next());
             }
 
             Printer.CommitData commitData = new Printer.CommitData();
@@ -395,12 +394,12 @@ public class Printer {
     }
 
     public static synchronized void commitOperation(ICommitCallback callback) {
-        if(printList != null && handler != null) {
+        if (printList != null && handler != null) {
             ArrayList list = new ArrayList(printList.size());
             Iterator iterator = printList.iterator();
 
-            while(iterator.hasNext()) {
-                list.add((Printer.PrintItem)iterator.next());
+            while (iterator.hasNext()) {
+                list.add((Printer.PrintItem) iterator.next());
             }
 
             Printer.CommitData commitData = new Printer.CommitData();
@@ -416,11 +415,11 @@ public class Printer {
         byte ret = 0;
 
         try {
-            if(printList == null) {
+            if (printList == null) {
                 printList = new ArrayList();
             }
 
-            if(handlerThread == null) {
+            if (handlerThread == null) {
                 handlerThread = new HandlerThread("Printer");
                 handlerThread.start();
                 handler = new Printer.MyHandler(handlerThread.getLooper());
@@ -433,7 +432,7 @@ public class Printer {
         } catch (TelpoException var3) {
             var3.printStackTrace();
             ret = -1;
-        }catch (Error e){
+        } catch (Error e) {
             ret = -1;
         }
 
@@ -470,12 +469,12 @@ public class Printer {
 
     public static synchronized void disconnect() {
         ThermalPrinter.stop();
-        if(printList != null) {
+        if (printList != null) {
             printList.clear();
             printList = null;
         }
 
-        if(handlerThread != null) {
+        if (handlerThread != null) {
             handlerThread.quit();
             handlerThread = null;
             handler = null;
@@ -491,14 +490,14 @@ public class Printer {
             var1.printStackTrace();
         }
 
-        if(printList != null) {
+        if (printList != null) {
             printList.clear();
         }
 
     }
 
     public static synchronized void feedPaper(int lines) {
-        if(lines > 0 && printList != null) {
+        if (lines > 0 && printList != null) {
             Printer.PrintItem printItem = new Printer.PrintItem("", new StyleConfig());
             printItem.feed = lines;
             printList.add(printItem);
@@ -508,7 +507,7 @@ public class Printer {
 
     public static synchronized int getStatus() {
         Object var0 = lock;
-        synchronized(lock) {
+        synchronized (lock) {
             mStatus = -9999;
             handler.sendEmptyMessage(1);
 
@@ -527,7 +526,7 @@ public class Printer {
     }
 
     private static Bitmap adjustBitmap(Bitmap bitmap, StyleConfig.Align align) {
-        if(bitmap == null) {
+        if (bitmap == null) {
             return null;
         } else {
             int adjustWidth = bitmap.getWidth();
@@ -535,19 +534,19 @@ public class Printer {
             int offset = 0;
             boolean temp = false;
             int temp1;
-            if(align == StyleConfig.Align.CENTER) {
+            if (align == StyleConfig.Align.CENTER) {
                 offset = (384 - adjustWidth) / 2;
                 adjustWidth += offset;
                 temp1 = adjustWidth % 8;
-                if(temp1 != 0) {
+                if (temp1 != 0) {
                     adjustWidth += 8 - temp1;
                 }
-            } else if(align == StyleConfig.Align.RIGHT) {
+            } else if (align == StyleConfig.Align.RIGHT) {
                 offset = 384 - adjustWidth;
                 adjustWidth = 384;
             } else {
                 temp1 = adjustWidth % 8;
-                if(temp1 != 0) {
+                if (temp1 != 0) {
                     adjustWidth += 8 - temp1;
                 }
             }
@@ -556,8 +555,8 @@ public class Printer {
             Paint paint = new Paint();
             paint.setColor(-1);
             Canvas canvas = new Canvas(newBitmap);
-            canvas.drawRect(0.0F, 0.0F, (float)adjustWidth, (float)adjustHeight, paint);
-            canvas.drawBitmap(bitmap, (float)offset, 0.0F, (Paint)null);
+            canvas.drawRect(0.0F, 0.0F, (float) adjustWidth, (float) adjustHeight, paint);
+            canvas.drawBitmap(bitmap, (float) offset, 0.0F, (Paint) null);
             return newBitmap;
         }
     }
@@ -568,9 +567,9 @@ public class Printer {
         int height = matrix.getHeight();
         int[] pixels = new int[width * height];
 
-        for(int bitmap = 0; bitmap < height; ++bitmap) {
-            for(int x = 0; x < width; ++x) {
-                if(matrix.get(x, bitmap)) {
+        for (int bitmap = 0; bitmap < height; ++bitmap) {
+            for (int x = 0; x < width; ++x) {
+                if (matrix.get(x, bitmap)) {
                     pixels[bitmap * width + x] = -16777216;
                 } else {
                     pixels[bitmap * width + x] = -1;
@@ -599,8 +598,8 @@ public class Printer {
         }
 
         public void handleMessage(Message msg) {
-            if(msg.what == 0) {
-                Printer.CommitData data = (Printer.CommitData)msg.obj;
+            if (msg.what == 0) {
+                Printer.CommitData data = (Printer.CommitData) msg.obj;
                 Printer.commitOperation(data.printList, data.callback);
 
                 try {
@@ -608,11 +607,11 @@ public class Printer {
                 } catch (TelpoException var7) {
                     var7.printStackTrace();
                 }
-            } else if(msg.what == 1) {
-                synchronized(Printer.lock) {
+            } else if (msg.what == 1) {
+                synchronized (Printer.lock) {
                     try {
                         int e = ThermalPrinter.checkStatus();
-                        switch(e) {
+                        switch (e) {
                             case 0:
                                 Printer.mStatus = 0;
                                 break;

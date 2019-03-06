@@ -5,6 +5,8 @@ package com.cofrem.transacciones.lib;
  */
 public interface EventBus {
     void register(Object Subscriber);
+
     void unregister(Object Subscriber);
+
     void post(Object Event);
 }

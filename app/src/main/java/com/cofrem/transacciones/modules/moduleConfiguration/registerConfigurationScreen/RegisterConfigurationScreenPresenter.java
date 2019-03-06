@@ -2,8 +2,8 @@ package com.cofrem.transacciones.modules.moduleConfiguration.registerConfigurati
 
 import android.content.Context;
 
-import com.cofrem.transacciones.modules.moduleConfiguration.registerConfigurationScreen.events.RegisterConfigurationScreenEvent;
 import com.cofrem.transacciones.models.Configurations;
+import com.cofrem.transacciones.modules.moduleConfiguration.registerConfigurationScreen.events.RegisterConfigurationScreenEvent;
 
 public interface RegisterConfigurationScreenPresenter {
 

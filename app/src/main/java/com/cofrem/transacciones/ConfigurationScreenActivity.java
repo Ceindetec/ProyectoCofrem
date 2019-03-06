@@ -9,11 +9,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cofrem.transacciones.global.InfoGlobalSettingsBlockButtons;
+import com.cofrem.transacciones.models.Configurations;
 import com.cofrem.transacciones.models.InfoHeaderApp;
 import com.cofrem.transacciones.modules.moduleConfiguration.configurationPrinter.ui.ConfigurationPrinterScreenActivity_;
 import com.cofrem.transacciones.modules.moduleConfiguration.registerConfigurationScreen.ui.RegisterConfigurationScreenActivity_;
 import com.cofrem.transacciones.modules.moduleConfiguration.testCommunicationScreen.ui.TestCommunicationScreenActivity_;
-import com.cofrem.transacciones.models.Configurations;
+import com.cofrem.transacciones.modules.moduleConfiguration.ultimaTransaccionScreen.ui.UltimaTransaccionScreenActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -193,6 +194,27 @@ public class ConfigurationScreenActivity extends Activity {
             @Override
             public void run() {
                 Intent intent = new Intent(ConfigurationScreenActivity.this, TestCommunicationScreenActivity_.class);
+                //Agregadas banderas para no retorno
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                startActivity(intent);
+            }
+        }, 100);
+
+    }
+
+    /**
+     * Metodo para navegar a la ventana principal
+     */
+    @Click(R.id.btnConfigurationScreenModuleUltimaTransaccion)
+    public void navigateToUltimaTransaccion() {
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(ConfigurationScreenActivity.this, UltimaTransaccionScreenActivity_.class);
                 //Agregadas banderas para no retorno
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                         | Intent.FLAG_ACTIVITY_NEW_TASK

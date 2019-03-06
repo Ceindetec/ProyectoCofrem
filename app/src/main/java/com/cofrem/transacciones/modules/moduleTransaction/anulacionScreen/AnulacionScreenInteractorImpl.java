@@ -66,6 +66,6 @@ class AnulacionScreenInteractorImpl implements AnulacionScreenInteractor {
 
     @Override
     public void imprimirRecibo(Context context, String stringCopia) {
-        anulacionScreenRepository.imprimirRecibo(context,stringCopia);
+        anulacionScreenRepository.imprimirRecibo(context, stringCopia);
     }
 }

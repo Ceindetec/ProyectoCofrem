@@ -10,13 +10,6 @@ import org.ksoap2.serialization.SoapObject;
 
 public class KsoapAsync extends AsyncTask<TransactionWS, Integer, SoapObject> {
 
-    /**
-     * Interface para el callback de datos
-     */
-    public interface ResponseKsoapAsync {
-        SoapObject processFinish(SoapObject soapResponse);
-    }
-
     //Call back interface
     public ResponseKsoapAsync delegate = null;
 
@@ -28,12 +21,6 @@ public class KsoapAsync extends AsyncTask<TransactionWS, Integer, SoapObject> {
     public KsoapAsync(ResponseKsoapAsync response) {
         delegate = response;//Assigning call back interfacethrough constructor
     }
-
-    /**
-     * #############################################################################################
-     * Metodos sobrecargados de la clase
-     * #############################################################################################
-     */
 
     /**
      * Ejecuta la accion de llamar el Web Service
@@ -79,6 +66,12 @@ public class KsoapAsync extends AsyncTask<TransactionWS, Integer, SoapObject> {
     }
 
     /**
+     * #############################################################################################
+     * Metodos sobrecargados de la clase
+     * #############################################################################################
+     */
+
+    /**
      * Metodo que se ejecuta despues de la ejecucion retorna la respuesta
      *
      * @param soapResponse
@@ -88,5 +81,12 @@ public class KsoapAsync extends AsyncTask<TransactionWS, Integer, SoapObject> {
 
         //Delegado que retorna el objeto soap
         delegate.processFinish(soapResponse);
+    }
+
+    /**
+     * Interface para el callback de datos
+     */
+    public interface ResponseKsoapAsync {
+        SoapObject processFinish(SoapObject soapResponse);
     }
 }

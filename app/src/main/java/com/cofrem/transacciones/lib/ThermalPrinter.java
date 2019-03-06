@@ -7,6 +7,7 @@ package com.cofrem.transacciones.lib;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.util.Log;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -18,11 +19,12 @@ import com.telpo.tps550.api.TelpoException;
 import com.telpo.tps550.api.iccard.NotEnoughBufferException;
 import com.telpo.tps550.api.printer.NoPaperException;
 import com.telpo.tps550.api.printer.OverHeatException;
+
 import java.io.UnsupportedEncodingException;
 import java.util.regex.Pattern;
 
 
-public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
+public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter {
     public static final int ALGIN_LEFT = 0;
     public static final int ALGIN_MIDDLE = 1;
     public static final int ALGIN_RIGHT = 2;
@@ -36,7 +38,6 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
     public static final int STATUS_OVER_FLOW = 3;
     public static final int STATUS_UNKNOWN = 4;
     private static final String TAG = "ThermalPrinter";
-    private static boolean openFlag = false;
     private static final int ARGB_MASK_RED = 16711680;
     private static final int ARGB_MASK_GREEN = 65280;
     private static final int ARGB_MASK_BLUE = 255;
@@ -44,6 +45,7 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
     private static final int RGB565_MASK_GREEN = 2016;
     private static final int RGB565_MASK_BLUE = 31;
     private static final int color = 128;
+    private static boolean openFlag = false;
 
     static {
         System.loadLibrary("telpo_printer");
@@ -105,7 +107,7 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
     private static native int set_bold(int var0);
 
     private static TelpoException getException(int ret) {
-        switch(ret) {
+        switch (ret) {
             case 65521:
                 return new DeviceNotOpenException();
             case 65522:
@@ -125,11 +127,11 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
     }
 
     public static synchronized void start() throws TelpoException {
-        if(openFlag) {
+        if (openFlag) {
             throw new DeviceAlreadyOpenException();
         } else {
             int ret = device_open();
-            if(ret == 0) {
+            if (ret == 0) {
                 openFlag = true;
             } else {
                 throw getException(ret);
@@ -138,42 +140,42 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
     }
 
     public static synchronized void reset() throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
         } else {
             int ret = init();
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             }
         }
     }
 
     public static synchronized void walkPaper(int line) throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
-        } else if(line <= 0) {
+        } else if (line <= 0) {
             throw new IllegalArgumentException();
         } else {
             int ret = walk_paper(line);
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             }
         }
     }
 
     public static synchronized void stop() {
-        if(openFlag) {
+        if (openFlag) {
             device_close();
             openFlag = false;
         }
     }
 
     public static synchronized int checkStatus() throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
         } else {
             int ret = check_status();
-            switch(ret) {
+            switch (ret) {
                 case 0:
                     return 0;
                 case 65524:
@@ -189,64 +191,64 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
     }
 
     public static synchronized void enlargeFontSize(int widthMultiple, int heightMultiple) throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
         } else {
             int ret = enlarge(widthMultiple, heightMultiple);
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             }
         }
     }
 
     public static synchronized void setFontSize(int type) throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
         } else {
             int ret = set_font(type);
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             }
         }
     }
 
     public static synchronized void setHighlight(boolean mode) throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
         } else {
             int ret = highlight(mode);
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             }
         }
     }
 
     public static synchronized void setGray(int level) throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
         } else {
             int ret = gray(level);
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             }
         }
     }
 
     public static synchronized void setAlgin(int mode) throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
         } else {
             int ret = algin(mode);
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             }
         }
     }
 
     public static synchronized void addString(String content) throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
-        } else if(content != null && content.length() != 0) {
+        } else if (content != null && content.length() != 0) {
             Object text = null;
 
             byte[] text1;
@@ -258,7 +260,7 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
             }
 
             int ret = add_string(text1, text1.length);
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             }
         } else {
@@ -267,9 +269,9 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
     }
 
     public static synchronized void addBarcode(String barcode) throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
-        } else if(barcode != null && barcode.length() != 0) {
+        } else if (barcode != null && barcode.length() != 0) {
             byte[] barcodeCmd = new byte[53];
             barcodeCmd[0] = 29;
             barcodeCmd[1] = 104;
@@ -283,25 +285,25 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
             int widthOctet = bitmap.getWidth() / 8;
             int ret = 0;
 
-            for(int column = 0; ret < widthOctet; column += 8) {
+            for (int column = 0; ret < widthOctet; column += 8) {
                 int var10 = 0;
 
-                for(int i = 0; i < 8; ++i) {
+                for (int i = 0; i < 8; ++i) {
                     int var11 = bitmap.getPixel(i + column, 0);
-                    if((var11 & 16711680) >> 16 > 128 && (var11 & '\uff00') >> 8 > 128 && (var11 & 255) > 128) {
+                    if ((var11 & 16711680) >> 16 > 128 && (var11 & '\uff00') >> 8 > 128 && (var11 & 255) > 128) {
                         var10 <<= 1;
                     } else {
                         var10 = (var10 << 1) + 1;
                     }
                 }
 
-                barcodeCmd[ss] = (byte)var10;
+                barcodeCmd[ss] = (byte) var10;
                 ++ss;
                 ++ret;
             }
 
             ret = add_barcode(barcodeCmd, barcodeCmd.length);
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             }
         } else {
@@ -310,48 +312,48 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
     }
 
     public static synchronized void clearString() throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
         } else {
             int ret = clear_string();
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             }
         }
     }
 
     public static synchronized void printString() throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
         } else {
             int ret = print_and_walk(0, 0, 0);
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             }
         }
     }
 
     public static synchronized void printStringAndWalk(int direction, int mode, int lines) throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
-        } else if(direction != 1 && direction != 0) {
+        } else if (direction != 1 && direction != 0) {
             throw new IllegalArgumentException();
-        } else if(mode != 1 && mode != 0) {
+        } else if (mode != 1 && mode != 0) {
             throw new IllegalArgumentException();
         } else {
             int ret = print_and_walk(direction, mode, lines);
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             }
         }
     }
 
     public static synchronized void setLineSpace(int lineSpace) throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
-        } else if(lineSpace >= 0 && lineSpace <= 255) {
+        } else if (lineSpace >= 0 && lineSpace <= 255) {
             int ret = line_space(lineSpace);
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             }
         } else {
@@ -360,11 +362,11 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
     }
 
     public static synchronized void setLeftIndent(int space) throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
-        } else if(space >= 0 && space <= 255) {
+        } else if (space >= 0 && space <= 255) {
             int ret = indent(space);
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             }
         } else {
@@ -373,10 +375,10 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
     }
 
     public static synchronized void printBarcode(String barcode) throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
-        } else if(barcode != null && barcode.length() != 0 && barcode.length() <= 12 && barcode.length() >= 11) {
-            if(!isNumeric(barcode)) {
+        } else if (barcode != null && barcode.length() != 0 && barcode.length() <= 12 && barcode.length() >= 11) {
+            if (!isNumeric(barcode)) {
                 throw new IllegalArgumentException();
             } else {
                 Bitmap bitmap = CreateCode(barcode, BarcodeFormat.UPC_A, 360, 108);
@@ -393,20 +395,20 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
     }
 
     public static synchronized void printLogo(int width, int height, char[] logo) throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException("The printer has not been init!");
         } else {
             int printer_type = get_printer_type();
-            if(printer_type != 3 && printer_type != 4) {
-                if(width > 384 || height % 8 != 0) {
+            if (printer_type != 3 && printer_type != 4) {
+                if (width > 384 || height % 8 != 0) {
                     throw new IllegalArgumentException("The width or the height of the image to print is illegal!");
                 }
-            } else if(width > 576 || width % 8 != 0) {
+            } else if (width > 576 || width % 8 != 0) {
                 throw new IllegalArgumentException("The width of the image to print is illegal!");
             }
 
             int ret = print_logo(width, height, logo);
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             }
         }
@@ -426,9 +428,9 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
         boolean widthOctet = false;
         boolean width = false;
         boolean column = false;
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException("The printer has not been init!");
-        } else if(image == null) {
+        } else if (image == null) {
             throw new NullPointerException();
         } else {
             Log.i("ThermalPrinter", "width:" + image.getWidth() + "height:" + image.getHeight() + "config:" + image.getConfig());
@@ -438,13 +440,13 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
             int var20;
             int var21;
             int var22;
-            if(printer_type != 3 && printer_type != 4) {
-                if(image.getWidth() > 384 || image.getHeight() < 1) {
+            if (printer_type != 3 && printer_type != 4) {
+                if (image.getWidth() > 384 || image.getHeight() < 1) {
                     throw new IllegalArgumentException("The width or the height of the image to print is illegal!");
                 }
 
                 int var23;
-                if(image.getHeight() % 8 != 0) {
+                if (image.getHeight() % 8 != 0) {
                     var23 = (image.getHeight() / 8 + 1) * 8;
                 } else {
                     var23 = image.getHeight();
@@ -453,48 +455,48 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
                 Imagelogo = new char[image.getWidth() * var23 / 8];
                 int var17;
                 int var18;
-                if(image.getConfig().equals(Config.ARGB_8888)) {
+                if (image.getConfig().equals(Config.ARGB_8888)) {
                     var20 = 0;
 
-                    while(true) {
-                        if(var20 >= image.getHeight() / 8) {
+                    while (true) {
+                        if (var20 >= image.getHeight() / 8) {
                             Log.i("ThermalPrinter", "dealing ARGB_8888 image");
                             break;
                         }
 
-                        for(var18 = 0; var18 < image.getWidth(); ++var18) {
+                        for (var18 = 0; var18 < image.getWidth(); ++var18) {
                             var19 = 0;
 
-                            for(var17 = var20 * 8; var17 < var20 * 8 + 8; ++var17) {
+                            for (var17 = var20 * 8; var17 < var20 * 8 + 8; ++var17) {
                                 var21 = image.getPixel(var18, var17);
-                                if((var21 & 16711680) >> 16 > 128 && (var21 & '\uff00') >> 8 > 128 && (var21 & 255) > 128) {
+                                if ((var21 & 16711680) >> 16 > 128 && (var21 & '\uff00') >> 8 > 128 && (var21 & 255) > 128) {
                                     var19 <<= 1;
                                 } else {
                                     var19 = (var19 << 1) + 1;
                                 }
                             }
 
-                            Imagelogo[ss] = (char)var19;
+                            Imagelogo[ss] = (char) var19;
                             ++ss;
                         }
 
                         ++var20;
                     }
-                } else if(image.getConfig().equals(Config.ALPHA_8)) {
+                } else if (image.getConfig().equals(Config.ALPHA_8)) {
                     var20 = 0;
 
-                    while(true) {
-                        if(var20 >= image.getHeight() / 8) {
+                    while (true) {
+                        if (var20 >= image.getHeight() / 8) {
                             Log.i("ThermalPrinter", "dealing ALPHA_8 image");
                             break;
                         }
 
-                        for(var18 = 0; var18 < image.getWidth(); ++var18) {
+                        for (var18 = 0; var18 < image.getWidth(); ++var18) {
                             var19 = 0;
 
-                            for(var17 = var20 * 8; var17 < var20 * 8 + 8; ++var17) {
+                            for (var17 = var20 * 8; var17 < var20 * 8 + 8; ++var17) {
                                 var21 = image.getPixel(var18, var17);
-                                if((var21 & 255) > 128) {
+                                if ((var21 & 255) > 128) {
                                     var19 *= 2;
                                     var19 <<= 1;
                                 } else {
@@ -502,36 +504,36 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
                                 }
                             }
 
-                            Imagelogo[ss] = (char)var19;
+                            Imagelogo[ss] = (char) var19;
                             ++ss;
                         }
 
                         ++var20;
                     }
-                } else if(!image.getConfig().equals(Config.RGB_565)) {
+                } else if (!image.getConfig().equals(Config.RGB_565)) {
                     Log.e("ThermalPrinter", "unsupport image formate!");
                 } else {
                     var20 = 0;
 
-                    while(true) {
-                        if(var20 >= image.getHeight() / 8) {
+                    while (true) {
+                        if (var20 >= image.getHeight() / 8) {
                             Log.i("ThermalPrinter", "dealing RGB_565 image");
                             break;
                         }
 
-                        for(var18 = 0; var18 < image.getWidth(); ++var18) {
+                        for (var18 = 0; var18 < image.getWidth(); ++var18) {
                             var19 = 0;
 
-                            for(var17 = var20 * 8; var17 < var20 * 8 + 8; ++var17) {
+                            for (var17 = var20 * 8; var17 < var20 * 8 + 8; ++var17) {
                                 var21 = image.getPixel(var18, var17);
-                                if((var21 & '\uf800') >> 11 > 15 && (var21 & 2016) >> 5 > 30 && (var21 & 31) > 15) {
+                                if ((var21 & '\uf800') >> 11 > 15 && (var21 & 2016) >> 5 > 30 && (var21 & 31) > 15) {
                                     var19 <<= 1;
                                 } else {
                                     var19 = (var19 << 1) + 1;
                                 }
                             }
 
-                            Imagelogo[ss] = (char)var19;
+                            Imagelogo[ss] = (char) var19;
                             ++ss;
                         }
 
@@ -541,13 +543,13 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
 
                 var22 = print_logo(image.getWidth(), var23, Imagelogo);
             } else {
-                if(image.getWidth() > 576 || image.getHeight() < 1) {
+                if (image.getWidth() > 576 || image.getHeight() < 1) {
                     throw new IllegalArgumentException("The width or the height of the image to print is illegal!");
                 }
 
                 int var25 = image.getWidth() % 8;
                 int var24;
-                if(var25 != 0) {
+                if (var25 != 0) {
                     var24 = image.getWidth() - var25 + 8;
                 } else {
                     var24 = image.getWidth();
@@ -558,49 +560,49 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
                 int var26;
                 int var27;
                 int var28;
-                if(image.getConfig().equals(Config.ARGB_8888)) {
+                if (image.getConfig().equals(Config.ARGB_8888)) {
                     var26 = image.getWidth() / 8;
                     var20 = 0;
 
-                    while(true) {
-                        if(var20 >= image.getHeight()) {
+                    while (true) {
+                        if (var20 >= image.getHeight()) {
                             Log.i("ThermalPrinter", "dealing ARGB_8888 image");
                             break;
                         }
 
                         var27 = 0;
 
-                        for(var28 = 0; var27 < var26; var28 += 8) {
+                        for (var28 = 0; var27 < var26; var28 += 8) {
                             var19 = 0;
 
-                            for(i = 0; i < 8; ++i) {
+                            for (i = 0; i < 8; ++i) {
                                 var21 = image.getPixel(i + var28, var20);
-                                if((var21 & 16711680) >> 16 > 128 && (var21 & '\uff00') >> 8 > 128 && (var21 & 255) > 128) {
+                                if ((var21 & 16711680) >> 16 > 128 && (var21 & '\uff00') >> 8 > 128 && (var21 & 255) > 128) {
                                     var19 <<= 1;
                                 } else {
                                     var19 = (var19 << 1) + 1;
                                 }
                             }
 
-                            Imagelogo[ss] = (char)var19;
+                            Imagelogo[ss] = (char) var19;
                             ++ss;
                             ++var27;
                         }
 
-                        if(var25 != 0) {
+                        if (var25 != 0) {
                             var19 = 0;
                             i = 0;
 
-                            while(true) {
-                                if(i >= var25) {
+                            while (true) {
+                                if (i >= var25) {
                                     var19 <<= 8 - var25;
-                                    Imagelogo[ss] = (char)var19;
+                                    Imagelogo[ss] = (char) var19;
                                     ++ss;
                                     break;
                                 }
 
                                 var21 = image.getPixel(i + var28, var20);
-                                if((var21 & 16711680) >> 16 > 128 && (var21 & '\uff00') >> 8 > 128 && (var21 & 255) > 128) {
+                                if ((var21 & 16711680) >> 16 > 128 && (var21 & '\uff00') >> 8 > 128 && (var21 & 255) > 128) {
                                     var19 <<= 1;
                                 } else {
                                     var19 = (var19 << 1) + 1;
@@ -612,41 +614,41 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
 
                         ++var20;
                     }
-                } else if(image.getConfig().equals(Config.ALPHA_8)) {
+                } else if (image.getConfig().equals(Config.ALPHA_8)) {
                     var26 = image.getWidth() / 8;
                     var20 = 0;
 
-                    while(true) {
-                        if(var20 >= image.getHeight()) {
+                    while (true) {
+                        if (var20 >= image.getHeight()) {
                             Log.i("ThermalPrinter", "dealing ALPHA_8 image");
                             break;
                         }
 
                         var27 = 0;
 
-                        for(var28 = 0; var27 < var26; var28 += 8) {
+                        for (var28 = 0; var27 < var26; var28 += 8) {
                             var19 = 0;
 
-                            for(i = 0; i < 8; ++i) {
+                            for (i = 0; i < 8; ++i) {
                                 var21 = image.getPixel(i + var28, var20);
-                                if((var21 & 255) > 128) {
+                                if ((var21 & 255) > 128) {
                                     var19 <<= 1;
                                 } else {
                                     var19 = (var19 << 1) + 1;
                                 }
                             }
 
-                            Imagelogo[ss] = (char)var19;
+                            Imagelogo[ss] = (char) var19;
                             ++ss;
                             ++var27;
                         }
 
-                        if(var25 != 0) {
+                        if (var25 != 0) {
                             var19 = 0;
 
-                            for(i = 0; i < var25; ++i) {
+                            for (i = 0; i < var25; ++i) {
                                 var21 = image.getPixel(i + var28, var20);
-                                if((var21 & 255) > 128) {
+                                if ((var21 & 255) > 128) {
                                     var19 <<= 1;
                                 } else {
                                     var19 = (var19 << 1) + 1;
@@ -654,57 +656,57 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
                             }
 
                             var19 <<= 8 - var25;
-                            Imagelogo[ss] = (char)var19;
+                            Imagelogo[ss] = (char) var19;
                             ++ss;
                         }
 
                         ++var20;
                     }
-                } else if(!image.getConfig().equals(Config.RGB_565)) {
+                } else if (!image.getConfig().equals(Config.RGB_565)) {
                     Log.e("ThermalPrinter", "unsupport image formate!");
                 } else {
                     var26 = image.getWidth() / 8;
                     var20 = 0;
 
-                    while(true) {
-                        if(var20 >= image.getHeight()) {
+                    while (true) {
+                        if (var20 >= image.getHeight()) {
                             Log.i("ThermalPrinter", "dealing RGB_565 image");
                             break;
                         }
 
                         var27 = 0;
 
-                        for(var28 = 0; var27 < var26; var28 += 8) {
+                        for (var28 = 0; var27 < var26; var28 += 8) {
                             var19 = 0;
 
-                            for(i = 0; i < 8; ++i) {
+                            for (i = 0; i < 8; ++i) {
                                 var21 = image.getPixel(i + var28, var20);
-                                if((var21 & '\uf800') >> 11 > 15 && (var21 & 2016) >> 5 > 30 && (var21 & 31) > 15) {
+                                if ((var21 & '\uf800') >> 11 > 15 && (var21 & 2016) >> 5 > 30 && (var21 & 31) > 15) {
                                     var19 <<= 1;
                                 } else {
                                     var19 = (var19 << 1) + 1;
                                 }
                             }
 
-                            Imagelogo[ss] = (char)var19;
+                            Imagelogo[ss] = (char) var19;
                             ++ss;
                             ++var27;
                         }
 
-                        if(var25 != 0) {
+                        if (var25 != 0) {
                             var19 = 0;
                             i = 0;
 
-                            while(true) {
-                                if(i >= var25) {
+                            while (true) {
+                                if (i >= var25) {
                                     var19 <<= 8 - var25;
-                                    Imagelogo[ss] = (char)var19;
+                                    Imagelogo[ss] = (char) var19;
                                     ++ss;
                                     break;
                                 }
 
                                 var21 = image.getPixel(i + var28, var20);
-                                if((var21 & '\uf800') >> 11 > 15 && (var21 & 2016) >> 5 > 30 && (var21 & 31) > 15) {
+                                if ((var21 & '\uf800') >> 11 > 15 && (var21 & 2016) >> 5 > 30 && (var21 & 31) > 15) {
                                     var19 <<= 1;
                                 } else {
                                     var19 = (var19 << 1) + 1;
@@ -721,8 +723,8 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
                 var22 = print_logo(var24, image.getHeight(), Imagelogo);
             }
 
-            if(var22 != 0) {
-                if(var22 == '\ufff2') {
+            if (var22 != 0) {
+                if (var22 == '\ufff2') {
                     throw new IllegalArgumentException();
                 } else {
                     throw getException(var22);
@@ -732,12 +734,12 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
     }
 
     public static synchronized String getVersion() throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
         } else {
             byte[] version = new byte[128];
             int ret = get_version(version);
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             } else {
                 return new String(version);
@@ -758,9 +760,9 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
         boolean widthLeft = false;
         boolean widthOctet = false;
         boolean column = false;
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException("The printer has not been init!");
-        } else if(image == null) {
+        } else if (image == null) {
             throw new NullPointerException();
         } else {
             Log.i("ThermalPrinter", "width:" + image.getWidth() + "height:" + image.getHeight() + "config:" + image.getConfig());
@@ -775,21 +777,21 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
             int var24;
             int var26;
             int var30;
-            if(printer_type != 3 && printer_type != 4) {
+            if (printer_type != 3 && printer_type != 4) {
                 int var25;
-                if(image.getHeight() % 8 != 0) {
+                if (image.getHeight() % 8 != 0) {
                     var25 = (image.getHeight() / 8 + 1) * 8;
                 } else {
                     var25 = image.getHeight();
                 }
 
-                if(image.getWidth() > 384) {
+                if (image.getWidth() > 384) {
                     throw new IllegalArgumentException("The width or the height of the image to print is illegal!");
                 }
 
                 initWidth = false;
                 printWidth = false;
-                switch(mode) {
+                switch (mode) {
                     case 0:
                         var26 = image.getWidth();
                         var30 = 0;
@@ -810,49 +812,49 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
                 Log.e("ThermalPrinter", ":" + var30 + ":" + var26 + ":" + var25);
                 var23 = var30;
                 int var18;
-                if(image.getConfig().equals(Config.ARGB_8888)) {
+                if (image.getConfig().equals(Config.ARGB_8888)) {
                     var21 = 0;
 
-                    while(true) {
-                        if(var21 >= var25 / 8) {
+                    while (true) {
+                        if (var21 >= var25 / 8) {
                             Log.i("ThermalPrinter", "dealing ARGB_8888 image");
                             break;
                         }
 
-                        for(var19 = var30; var19 < var30 + image.getWidth(); ++var19) {
+                        for (var19 = var30; var19 < var30 + image.getWidth(); ++var19) {
                             var20 = 0;
 
-                            for(var18 = var21 * 8; var18 < Math.min(var21 * 8 + 8, image.getHeight()); ++var18) {
+                            for (var18 = var21 * 8; var18 < Math.min(var21 * 8 + 8, image.getHeight()); ++var18) {
                                 var22 = image.getPixel(var19 - var30, var18);
-                                if((var22 & 16711680) >> 16 > 128 && (var22 & '\uff00') >> 8 > 128 && (var22 & 255) > 128) {
+                                if ((var22 & 16711680) >> 16 > 128 && (var22 & '\uff00') >> 8 > 128 && (var22 & 255) > 128) {
                                     var20 <<= 1;
                                 } else {
                                     var20 = (var20 << 1) + 1;
                                 }
                             }
 
-                            Imagelogo[var23] = (char)var20;
+                            Imagelogo[var23] = (char) var20;
                             ++var23;
                         }
 
                         var23 += var30;
                         ++var21;
                     }
-                } else if(image.getConfig().equals(Config.ALPHA_8)) {
+                } else if (image.getConfig().equals(Config.ALPHA_8)) {
                     var21 = 0;
 
-                    while(true) {
-                        if(var21 >= var25 / 8) {
+                    while (true) {
+                        if (var21 >= var25 / 8) {
                             Log.i("ThermalPrinter", "dealing ALPHA_8 image");
                             break;
                         }
 
-                        for(var19 = var30; var19 < var30 + image.getWidth(); ++var19) {
+                        for (var19 = var30; var19 < var30 + image.getWidth(); ++var19) {
                             var20 = 0;
 
-                            for(var18 = var21 * 8; var18 < Math.min(var21 * 8 + 8, image.getHeight()); ++var18) {
+                            for (var18 = var21 * 8; var18 < Math.min(var21 * 8 + 8, image.getHeight()); ++var18) {
                                 var22 = image.getPixel(var19 - var30, var18);
-                                if((var22 & 255) > 128) {
+                                if ((var22 & 255) > 128) {
                                     var20 *= 2;
                                     var20 <<= 1;
                                 } else {
@@ -860,37 +862,37 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
                                 }
                             }
 
-                            Imagelogo[var23] = (char)var20;
+                            Imagelogo[var23] = (char) var20;
                             ++var23;
                         }
 
                         var23 += var30;
                         ++var21;
                     }
-                } else if(!image.getConfig().equals(Config.RGB_565)) {
+                } else if (!image.getConfig().equals(Config.RGB_565)) {
                     Log.e("ThermalPrinter", "unsupport image formate!");
                 } else {
                     var21 = 0;
 
-                    while(true) {
-                        if(var21 >= var25 / 8) {
+                    while (true) {
+                        if (var21 >= var25 / 8) {
                             Log.i("ThermalPrinter", "dealing RGB_565 image");
                             break;
                         }
 
-                        for(var18 = var21 * 8; var18 < Math.min(var21 * 8 + 8, image.getHeight()); ++var18) {
+                        for (var18 = var21 * 8; var18 < Math.min(var21 * 8 + 8, image.getHeight()); ++var18) {
                             var20 = 0;
 
-                            for(var18 = var21 * 8; var18 < var21 * 8 + 8; ++var18) {
+                            for (var18 = var21 * 8; var18 < var21 * 8 + 8; ++var18) {
                                 var22 = image.getPixel(width - var30, var18);
-                                if((var22 & '\uf800') >> 11 > 15 && (var22 & 2016) >> 5 > 30 && (var22 & 31) > 15) {
+                                if ((var22 & '\uf800') >> 11 > 15 && (var22 & 2016) >> 5 > 30 && (var22 & 31) > 15) {
                                     var20 <<= 1;
                                 } else {
                                     var20 = (var20 << 1) + 1;
                                 }
                             }
 
-                            Imagelogo[var23] = (char)var20;
+                            Imagelogo[var23] = (char) var20;
                             ++var23;
                         }
 
@@ -901,26 +903,26 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
 
                 var24 = print_logo(var26, var25, Imagelogo);
             } else {
-                if(image.getWidth() > 576 || image.getHeight() < 1) {
+                if (image.getWidth() > 576 || image.getHeight() < 1) {
                     throw new IllegalArgumentException("The width or the height of the image to print is illegal!");
                 }
 
                 int var27 = image.getWidth() % 8;
-                if(var27 != 0) {
+                if (var27 != 0) {
                     var26 = image.getWidth() - var27 + 8;
                 } else {
                     var26 = image.getWidth();
                 }
 
                 initWidth = false;
-                switch(mode) {
+                switch (mode) {
                     case 0:
                         var30 = 0;
                         break;
                     case 1:
                         var30 = (576 - var26) / 2;
                         var20 = var30 % 8;
-                        if(var20 != 0) {
+                        if (var20 != 0) {
                             var30 = var30 - var20 + 8;
                         }
 
@@ -941,49 +943,49 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
                 int i;
                 int var28;
                 int var29;
-                if(image.getConfig().equals(Config.ARGB_8888)) {
+                if (image.getConfig().equals(Config.ARGB_8888)) {
                     var28 = image.getWidth() / 8;
                     var21 = 0;
 
-                    while(true) {
-                        if(var21 >= image.getHeight()) {
+                    while (true) {
+                        if (var21 >= image.getHeight()) {
                             Log.i("ThermalPrinter", "dealing ARGB_8888 image");
                             break;
                         }
 
                         var19 = 0;
 
-                        for(var29 = 0; var19 < var28; var29 += 8) {
+                        for (var29 = 0; var19 < var28; var29 += 8) {
                             var20 = 0;
 
-                            for(i = 0; i < 8; ++i) {
+                            for (i = 0; i < 8; ++i) {
                                 var22 = image.getPixel(i + var29, var21);
-                                if((var22 & 16711680) >> 16 > 128 && (var22 & '\uff00') >> 8 > 128 && (var22 & 255) > 128) {
+                                if ((var22 & 16711680) >> 16 > 128 && (var22 & '\uff00') >> 8 > 128 && (var22 & 255) > 128) {
                                     var20 <<= 1;
                                 } else {
                                     var20 = (var20 << 1) + 1;
                                 }
                             }
 
-                            Imagelogo[var23] = (char)var20;
+                            Imagelogo[var23] = (char) var20;
                             ++var23;
                             ++var19;
                         }
 
-                        if(var27 != 0) {
+                        if (var27 != 0) {
                             var20 = 0;
                             i = 0;
 
-                            while(true) {
-                                if(i >= var27) {
+                            while (true) {
+                                if (i >= var27) {
                                     var20 <<= 8 - var27;
-                                    Imagelogo[var23] = (char)var20;
+                                    Imagelogo[var23] = (char) var20;
                                     ++var23;
                                     break;
                                 }
 
                                 var22 = image.getPixel(i + var29, var21);
-                                if((var22 & 16711680) >> 16 > 128 && (var22 & '\uff00') >> 8 > 128 && (var22 & 255) > 128) {
+                                if ((var22 & 16711680) >> 16 > 128 && (var22 & '\uff00') >> 8 > 128 && (var22 & 255) > 128) {
                                     var20 <<= 1;
                                 } else {
                                     var20 = (var20 << 1) + 1;
@@ -996,41 +998,41 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
                         var23 += var30;
                         ++var21;
                     }
-                } else if(image.getConfig().equals(Config.ALPHA_8)) {
+                } else if (image.getConfig().equals(Config.ALPHA_8)) {
                     var28 = image.getWidth() / 8;
                     var21 = 0;
 
-                    while(true) {
-                        if(var21 >= image.getHeight()) {
+                    while (true) {
+                        if (var21 >= image.getHeight()) {
                             Log.i("ThermalPrinter", "dealing ALPHA_8 image");
                             break;
                         }
 
                         var19 = 0;
 
-                        for(var29 = 0; var19 < var28; var29 += 8) {
+                        for (var29 = 0; var19 < var28; var29 += 8) {
                             var20 = 0;
 
-                            for(i = 0; i < 8; ++i) {
+                            for (i = 0; i < 8; ++i) {
                                 var22 = image.getPixel(i + var29, var21);
-                                if((var22 & 255) > 128) {
+                                if ((var22 & 255) > 128) {
                                     var20 <<= 1;
                                 } else {
                                     var20 = (var20 << 1) + 1;
                                 }
                             }
 
-                            Imagelogo[var23] = (char)var20;
+                            Imagelogo[var23] = (char) var20;
                             ++var23;
                             ++var19;
                         }
 
-                        if(var27 != 0) {
+                        if (var27 != 0) {
                             var20 = 0;
 
-                            for(i = 0; i < var27; ++i) {
+                            for (i = 0; i < var27; ++i) {
                                 var22 = image.getPixel(i + var29, var21);
-                                if((var22 & 255) > 128) {
+                                if ((var22 & 255) > 128) {
                                     var20 <<= 1;
                                 } else {
                                     var20 = (var20 << 1) + 1;
@@ -1038,58 +1040,58 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
                             }
 
                             var20 <<= 8 - var27;
-                            Imagelogo[var23] = (char)var20;
+                            Imagelogo[var23] = (char) var20;
                             ++var23;
                         }
 
                         var23 += var30;
                         ++var21;
                     }
-                } else if(!image.getConfig().equals(Config.RGB_565)) {
+                } else if (!image.getConfig().equals(Config.RGB_565)) {
                     Log.e("ThermalPrinter", "unsupport image formate!");
                 } else {
                     var28 = image.getWidth() / 8;
                     var21 = 0;
 
-                    while(true) {
-                        if(var21 >= image.getHeight()) {
+                    while (true) {
+                        if (var21 >= image.getHeight()) {
                             Log.i("ThermalPrinter", "dealing RGB_565 image");
                             break;
                         }
 
                         var19 = 0;
 
-                        for(var29 = 0; var19 < var28; var29 += 8) {
+                        for (var29 = 0; var19 < var28; var29 += 8) {
                             var20 = 0;
 
-                            for(i = 0; i < 8; ++i) {
+                            for (i = 0; i < 8; ++i) {
                                 var22 = image.getPixel(i + var29, var21);
-                                if((var22 & '\uf800') >> 11 > 15 && (var22 & 2016) >> 5 > 30 && (var22 & 31) > 15) {
+                                if ((var22 & '\uf800') >> 11 > 15 && (var22 & 2016) >> 5 > 30 && (var22 & 31) > 15) {
                                     var20 <<= 1;
                                 } else {
                                     var20 = (var20 << 1) + 1;
                                 }
                             }
 
-                            Imagelogo[var23] = (char)var20;
+                            Imagelogo[var23] = (char) var20;
                             ++var23;
                             ++var19;
                         }
 
-                        if(var27 != 0) {
+                        if (var27 != 0) {
                             var20 = 0;
                             i = 0;
 
-                            while(true) {
-                                if(i >= var27) {
+                            while (true) {
+                                if (i >= var27) {
                                     var20 <<= 8 - var27;
-                                    Imagelogo[var23] = (char)var20;
+                                    Imagelogo[var23] = (char) var20;
                                     ++var23;
                                     break;
                                 }
 
                                 var22 = image.getPixel(i + var29, var21);
-                                if((var22 & '\uf800') >> 11 > 15 && (var22 & 2016) >> 5 > 30 && (var22 & 31) > 15) {
+                                if ((var22 & '\uf800') >> 11 > 15 && (var22 & 2016) >> 5 > 30 && (var22 & 31) > 15) {
                                     var20 <<= 1;
                                 } else {
                                     var20 = (var20 << 1) + 1;
@@ -1107,7 +1109,7 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
                 var24 = print_logo(var26, image.getHeight(), Imagelogo);
             }
 
-            if(var24 != 0) {
+            if (var24 != 0) {
                 throw getException(var24);
             }
         }
@@ -1127,9 +1129,9 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
         int height = matrix.getHeight();
         int[] pixels = new int[width * height];
 
-        for(int bitmap = 0; bitmap < height; ++bitmap) {
-            for(int x = 0; x < width; ++x) {
-                if(matrix.get(x, bitmap)) {
+        for (int bitmap = 0; bitmap < height; ++bitmap) {
+            for (int x = 0; x < width; ++x) {
+                if (matrix.get(x, bitmap)) {
                     pixels[bitmap * width + x] = -16777216;
                 } else {
                     pixels[bitmap * width + x] = -1;
@@ -1149,59 +1151,59 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
     }
 
     public static void searchMark(int direction, int search_disdance, int walk_disdance) throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
         } else {
             int ret = search_mark(direction, search_disdance, walk_disdance);
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             }
         }
     }
 
     public static void paperCut() throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
         } else {
             int ret = paper_cut();
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             }
         }
     }
 
     public static void sendCommand(String cmdStr) throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
-        } else if(cmdStr == null) {
+        } else if (cmdStr == null) {
             throw new IllegalArgumentException();
         } else {
             byte[] cmd = str2BCD(cmdStr.replace(" ", ""));
             int ret = send_command(cmd, cmd.length);
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             }
         }
     }
 
     public static void sendCommand(byte[] cmdStr, int len) throws TelpoException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
-        } else if(cmdStr == null) {
+        } else if (cmdStr == null) {
             throw new IllegalArgumentException();
         } else {
             int ret = send_command(cmdStr, len);
-            if(ret != 0) {
+            if (ret != 0) {
                 throw getException(ret);
             }
         }
     }
 
     public static void setBold(boolean isBold) throws DeviceNotOpenException {
-        if(!openFlag) {
+        if (!openFlag) {
             throw new DeviceNotOpenException();
         } else {
-            if(isBold) {
+            if (isBold) {
                 set_bold(1);
             } else {
                 set_bold(0);
@@ -1214,7 +1216,7 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
         String hexStr = "0123456789ABCDEF";
         int len = string.length();
         String str;
-        if(len % 2 == 1) {
+        if (len % 2 == 1) {
             str = string + "0";
             len = len + 1 >> 1;
         } else {
@@ -1225,10 +1227,10 @@ public class ThermalPrinter extends com.telpo.tps550.api.printer.ThermalPrinter{
         byte[] bytes = new byte[len];
         int i = 0;
 
-        for(int j = 0; i < len; j += 2) {
-            byte high = (byte)(hexStr.indexOf(str.charAt(j)) << 4);
-            byte low = (byte)hexStr.indexOf(str.charAt(j + 1));
-            bytes[i] = (byte)(high | low);
+        for (int j = 0; i < len; j += 2) {
+            byte high = (byte) (hexStr.indexOf(str.charAt(j)) << 4);
+            byte low = (byte) hexStr.indexOf(str.charAt(j + 1));
+            bytes[i] = (byte) (high | low);
             ++i;
         }
 

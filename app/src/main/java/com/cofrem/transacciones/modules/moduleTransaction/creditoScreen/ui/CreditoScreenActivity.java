@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -17,16 +16,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cofrem.transacciones.MainScreenActivity_;
+import com.cofrem.transacciones.R;
+import com.cofrem.transacciones.TransactionScreenActivity_;
 import com.cofrem.transacciones.global.InfoGlobalSettingsBlockButtons;
+import com.cofrem.transacciones.lib.KeyBoard;
 import com.cofrem.transacciones.lib.MagneticHandler;
 import com.cofrem.transacciones.models.InfoHeaderApp;
 import com.cofrem.transacciones.models.PrintRow;
+import com.cofrem.transacciones.models.Transaccion;
 import com.cofrem.transacciones.modules.moduleTransaction.creditoScreen.CreditoScreenPresenter;
 import com.cofrem.transacciones.modules.moduleTransaction.creditoScreen.CreditoScreenPresenterImpl;
-import com.cofrem.transacciones.R;
-import com.cofrem.transacciones.TransactionScreenActivity_;
-import com.cofrem.transacciones.lib.KeyBoard;
-import com.cofrem.transacciones.models.Transaccion;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -46,6 +45,12 @@ public class CreditoScreenActivity extends Activity implements CreditoScreenView
       #############################################################################################
      */
 
+    final static int PASO_VALOR_CONSUMO = 0;
+    final static int PASO_NUMERO_DOCUMENTO = 1;
+    final static int PASO_VERIFICACION_VALOR = 2;
+    final static int PASO_DESLICE_TARJETA = 3;
+    final static int PASO_CLAVE_USUARIO = 4;
+    final static int PASO_TRANSACCION_EXITOSA = 5;
     /**
      * Declaracion de los Contoles
      */
@@ -59,7 +64,6 @@ public class CreditoScreenActivity extends Activity implements CreditoScreenView
     TextView txvHeaderEstablecimiento;
     @ViewById
     TextView txvHeaderPunto;
-
     //Elementos del modulo
     @ViewById
     RelativeLayout bodyContentCreditoValorCompra;
@@ -79,47 +83,32 @@ public class CreditoScreenActivity extends Activity implements CreditoScreenView
     RelativeLayout bodyContentCreditoTransaccionErronea;
     @ViewById
     FrameLayout frlPgbHldTransactionCredito;
-
     //Paso transaction_credito_paso_valor_compra
     @ViewById
     EditText edtCreditoTransactionValorCompraValor;
-
     //Paso transaction_credito_paso_numero_documento
     @ViewById
     EditText edtCreditoTransactionNumeroDocumentoValor;
-
     //Paso transaction_credito_paso_verificacion_valor
     @ViewById
     TextView txvCreditoTransactionVerificacionDatosValorCantidad;
     @ViewById
     TextView txvCreditoTransactionVerificacionDatosNumeroDocumento;
-
     //Paso transaction_credito_paso_deslice_tarjeta
     @ViewById
     TextView txvCreditoTransactionDesliceTarjetaValorCantidad;
     @ViewById
     TextView txvCreditoTransactionDesliceTarjetaNumeroDocumento;
-
     //Paso transaction_credito_paso_clave_usuario
     @ViewById
     EditText edtCreditoTransactionClaveUsuarioContenidoClave;
-
     //Paso content_transaction_credito_paso_transaccion_error
     @ViewById
     TextView txvCreditoTransactionErrorDetalleTexto;
-
     //Model que almacena la transaccion actual
     Transaccion modelTransaccion = new Transaccion();
-
     //Pasos definidos
     int pasoTransaccion = 0; //Define el paso actual
-    final static int PASO_VALOR_CONSUMO = 0;
-    final static int PASO_NUMERO_DOCUMENTO = 1;
-    final static int PASO_VERIFICACION_VALOR = 2;
-    final static int PASO_DESLICE_TARJETA = 3;
-    final static int PASO_CLAVE_USUARIO = 4;
-    final static int PASO_TRANSACCION_EXITOSA = 5;
-
     /**
      * #############################################################################################
      * Instanciamientos de las clases
@@ -818,7 +807,7 @@ public class CreditoScreenActivity extends Activity implements CreditoScreenView
     public void imprimirRecibo() {
 
         //Imprime el recibo
-        creditoScreenPresenter.imprimirRecibo(this,this.getResources().getString(
+        creditoScreenPresenter.imprimirRecibo(this, this.getResources().getString(
                 R.string.recibo_copia_cliente));
 
     }

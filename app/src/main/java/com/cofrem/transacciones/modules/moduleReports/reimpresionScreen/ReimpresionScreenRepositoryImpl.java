@@ -2,26 +2,24 @@ package com.cofrem.transacciones.modules.moduleReports.reimpresionScreen;
 
 import android.content.Context;
 
-import com.cofrem.transacciones.global.InfoGlobalTransaccionSOAP;
-import com.cofrem.transacciones.lib.KsoapAsync;
-import com.cofrem.transacciones.lib.MD5;
-import com.cofrem.transacciones.models.ConfigurationPrinter;
-import com.cofrem.transacciones.models.modelsWS.MessageWS;
-import com.cofrem.transacciones.models.modelsWS.TransactionWS;
-import com.cofrem.transacciones.models.modelsWS.modelTransaccion.InformacionTransaccion;
-import com.cofrem.transacciones.models.modelsWS.modelTransaccion.ResultadoTransaccion;
-import com.cofrem.transacciones.models.modelsWS.modelTransaccion.TransacList;
-import com.cofrem.transacciones.modules.moduleConfiguration.testCommunicationScreen.events.TestCommunicationScreenEvent;
-import com.cofrem.transacciones.modules.moduleReports.reimpresionScreen.events.ReimpresionScreenEvent;
 import com.cofrem.transacciones.R;
 import com.cofrem.transacciones.database.AppDatabase;
 import com.cofrem.transacciones.global.InfoGlobalSettingsPrint;
+import com.cofrem.transacciones.global.InfoGlobalTransaccionSOAP;
 import com.cofrem.transacciones.lib.EventBus;
 import com.cofrem.transacciones.lib.GreenRobotEventBus;
+import com.cofrem.transacciones.lib.KsoapAsync;
+import com.cofrem.transacciones.lib.MD5;
 import com.cofrem.transacciones.lib.PrinterHandler;
 import com.cofrem.transacciones.lib.StyleConfig;
+import com.cofrem.transacciones.models.ConfigurationPrinter;
 import com.cofrem.transacciones.models.PrintRow;
 import com.cofrem.transacciones.models.Transaccion;
+import com.cofrem.transacciones.models.modelsWS.MessageWS;
+import com.cofrem.transacciones.models.modelsWS.TransactionWS;
+import com.cofrem.transacciones.models.modelsWS.modelTransaccion.ResultadoTransaccion;
+import com.cofrem.transacciones.models.modelsWS.modelTransaccion.TransacList;
+import com.cofrem.transacciones.modules.moduleReports.reimpresionScreen.events.ReimpresionScreenEvent;
 
 import org.ksoap2.serialization.SoapObject;
 
@@ -29,7 +27,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 public class ReimpresionScreenRepositoryImpl implements ReimpresionScreenRepository {
@@ -65,7 +62,7 @@ public class ReimpresionScreenRepositoryImpl implements ReimpresionScreenReposit
     @Override
     public void cierreDeLote(Context context) {
 
-        String codigoTermial =  AppDatabase.getInstance(context).obtenerCodigoTerminal();
+        String codigoTermial = AppDatabase.getInstance(context).obtenerCodigoTerminal();
 
         ArrayList<Transaccion> listaTransacciones = AppDatabase.getInstance(context).obtenerTransaccionesCierreLote();
 
@@ -77,18 +74,18 @@ public class ReimpresionScreenRepositoryImpl implements ReimpresionScreenReposit
 
         for (Transaccion modelTransaccion : listaTransacciones) {
             if (modelTransaccion.getTipo_transaccion() == Transaccion.TIPO_TRANSACCION_CONSUMO) {
-                transacLists.add(new TransacList(codigoTermial,modelTransaccion.getNumero_cargo(),modelTransaccion.getNumero_documento(),Integer.toString(modelTransaccion.getValor()),TransacList.ESTADO_ACTIVO_SIN_CIERRE));
+                transacLists.add(new TransacList(codigoTermial, modelTransaccion.getNumero_cargo(), modelTransaccion.getNumero_documento(), Integer.toString(modelTransaccion.getValor()), TransacList.ESTADO_ACTIVO_SIN_CIERRE));
             } else {
-                transacLists.add(new TransacList(codigoTermial,modelTransaccion.getNumero_cargo(),modelTransaccion.getNumero_documento(),Integer.toString(modelTransaccion.getValor()),TransacList.ESTADO_DEVOLUCION_SIN_CIERRE));
+                transacLists.add(new TransacList(codigoTermial, modelTransaccion.getNumero_cargo(), modelTransaccion.getNumero_documento(), Integer.toString(modelTransaccion.getValor()), TransacList.ESTADO_DEVOLUCION_SIN_CIERRE));
             }
         }
 
-        ArrayList<ResultadoTransaccion> resultadoTransaccion = registrarTransaccionConsumoWS(context ,transacLists);
+        ArrayList<ResultadoTransaccion> resultadoTransaccion = registrarTransaccionConsumoWS(context, transacLists);
 
         //AppDatabase.getInstance(context).dropTransactions("");
 
 
-        for(ResultadoTransaccion resultTransaccion : resultadoTransaccion){
+        for (ResultadoTransaccion resultTransaccion : resultadoTransaccion) {
             //Registra mediante el WS la transaccion
             if (resultTransaccion != null) {
 
@@ -102,14 +99,14 @@ public class ReimpresionScreenRepositoryImpl implements ReimpresionScreenReposit
                     //String estado = (transacList.getEstado().equals("X") || transacList.getEstado().equals("Y"))?"Aprobada":((transacList.getEstado().equals("A") || transacList.getEstado().equals("D"))?"No Aprobada":"");
                     String estado = transacList.getEstado();
 
-                    if(estado.equals("X")||estado.equals("A")){
-                        transacList.setEstado((estado.equals("X"))?"Aprobada":"No Aprobada");
+                    if (estado.equals("X") || estado.equals("A")) {
+                        transacList.setEstado((estado.equals("X")) ? "Aprobada" : "No Aprobada");
                         listaAprobadasCierre.add(transacList);
 
                         if (estado.equals("X"))
-                             AppDatabase.getInstance(context).dropTransactions(numCargo);
-                    }else{
-                        transacList.setEstado((estado.equals("Y"))?"Aprobada":"No Aprobada");
+                            AppDatabase.getInstance(context).dropTransactions(numCargo);
+                    } else {
+                        transacList.setEstado((estado.equals("Y")) ? "Aprobada" : "No Aprobada");
 
                         listaAnulacionesCierre.add(transacList);
 
@@ -133,7 +130,6 @@ public class ReimpresionScreenRepositoryImpl implements ReimpresionScreenReposit
         imprimirCierreLote(context);
 
     }
-
 
 
     /**
@@ -211,7 +207,7 @@ public class ReimpresionScreenRepositoryImpl implements ReimpresionScreenReposit
 
         //se siguen agregando cado auno de los String a los renglones (Rows) del recibo para imprimir
         printRows.add(new PrintRow(context.getResources().getString(
-                R.string.recibo_title_informe_diario), new StyleConfig(StyleConfig.Align.CENTER, gray,20)));
+                R.string.recibo_title_informe_diario), new StyleConfig(StyleConfig.Align.CENTER, gray, 20)));
 
 
         printRows.add(new PrintRow(context.getResources().getString(
@@ -315,7 +311,7 @@ public class ReimpresionScreenRepositoryImpl implements ReimpresionScreenReposit
 
         //se siguen agregando cado auno de los String a los renglones (Rows) del recibo para imprimir
         printRows.add(new PrintRow(context.getResources().getString(
-                R.string.recibo_title_informe_general), new StyleConfig(StyleConfig.Align.CENTER, gray,20)));
+                R.string.recibo_title_informe_general), new StyleConfig(StyleConfig.Align.CENTER, gray, 20)));
 
 
         printRows.add(new PrintRow(context.getResources().getString(
@@ -332,7 +328,7 @@ public class ReimpresionScreenRepositoryImpl implements ReimpresionScreenReposit
         printRows.add(new PrintRow(context.getResources().getString(
                 R.string.recibo_title_transaccion_aprobadas), new StyleConfig(StyleConfig.Align.LEFT, gray, 10)));
         printRows.add(new PrintRow(context.getResources().getString(
-                R.string.recibo_text_transa)+ "  " +context.getResources().getString(
+                R.string.recibo_text_transa) + "  " + context.getResources().getString(
                 R.string.recibo_text_fecha), context.getResources().getString(
                 R.string.recibo_text_valor), new StyleConfig(StyleConfig.Align.LEFT, gray, 10)));
 
@@ -357,7 +353,7 @@ public class ReimpresionScreenRepositoryImpl implements ReimpresionScreenReposit
         printRows.add(new PrintRow(context.getResources().getString(
                 R.string.recibo_title_transaccion_anuladas), new StyleConfig(StyleConfig.Align.LEFT, gray, 10)));
         printRows.add(new PrintRow(context.getResources().getString(
-                R.string.recibo_text_transa)+ "  " +context.getResources().getString(
+                R.string.recibo_text_transa) + "  " + context.getResources().getString(
                 R.string.recibo_text_fecha), context.getResources().getString(
                 R.string.recibo_text_valor), new StyleConfig(StyleConfig.Align.LEFT, gray, 10)));
 
@@ -497,14 +493,14 @@ public class ReimpresionScreenRepositoryImpl implements ReimpresionScreenReposit
      * - registra mediante el WS la transaccion
      * - Extrae el estado de la transaccion
      *
-     * @param context     contexto desde la cual se realiza la transaccion
+     * @param context contexto desde la cual se realiza la transaccion
      * @return regreso del resultado de la transaccion
      */
-    private ArrayList<ResultadoTransaccion> registrarTransaccionConsumoWS(Context context,ArrayList<TransacList> transacLists) {
+    private ArrayList<ResultadoTransaccion> registrarTransaccionConsumoWS(Context context, ArrayList<TransacList> transacLists) {
 
         ArrayList<ResultadoTransaccion> listaResultados = new ArrayList<>();
 
-        for(TransacList modelTransation : transacLists){
+        for (TransacList modelTransation : transacLists) {
 
             //Se crea una variable de estado de la transaccion
             ResultadoTransaccion resultadoTransaccion = null;
@@ -555,7 +551,7 @@ public class ReimpresionScreenRepositoryImpl implements ReimpresionScreenReposit
             //Si la transaccion no genero resultado regresa un establecimiento vacio
             if (soapTransaction != null) {
 
-                SoapObject transacResult =  (SoapObject) soapTransaction.getProperty(MessageWS.PROPERTY_TRANSAC_LISTS);
+                SoapObject transacResult = (SoapObject) soapTransaction.getProperty(MessageWS.PROPERTY_TRANSAC_LISTS);
 
                 //Inicializacion del modelo MessageWS
                 MessageWS messageWS = new MessageWS(
@@ -593,7 +589,6 @@ public class ReimpresionScreenRepositoryImpl implements ReimpresionScreenReposit
         //Retorno de estado de transaccion
         return listaResultados;
     }
-
 
 
     /**
@@ -703,7 +698,7 @@ public class ReimpresionScreenRepositoryImpl implements ReimpresionScreenReposit
 
 
     @Override
-    public void imprimirCierreLote(Context context){
+    public void imprimirCierreLote(Context context) {
         ConfigurationPrinter configurationPrinter = AppDatabase.getInstance(context).getConfigurationPrinter();
 
         int gray = configurationPrinter.getGray_level();
@@ -718,7 +713,7 @@ public class ReimpresionScreenRepositoryImpl implements ReimpresionScreenReposit
 
         //se siguen agregando cado auno de los String a los renglones (Rows) del recibo para imprimir
         printRows.add(new PrintRow(context.getResources().getString(
-                R.string.recibo_title_cierre_lote), new StyleConfig(StyleConfig.Align.CENTER, gray,20)));
+                R.string.recibo_title_cierre_lote), new StyleConfig(StyleConfig.Align.CENTER, gray, 20)));
 
 
         printRows.add(new PrintRow(context.getResources().getString(
@@ -739,8 +734,7 @@ public class ReimpresionScreenRepositoryImpl implements ReimpresionScreenReposit
                 R.string.recibo_text_estado), new StyleConfig(StyleConfig.Align.LEFT, gray, 10)));
 
 
-
-        for(TransacList aprobadasTransList : listaAprobadasCierre){
+        for (TransacList aprobadasTransList : listaAprobadasCierre) {
 
             String numCargo = aprobadasTransList.getNumeroAprobacion();
             String estado = aprobadasTransList.getEstado();
@@ -757,7 +751,7 @@ public class ReimpresionScreenRepositoryImpl implements ReimpresionScreenReposit
                 R.string.recibo_text_estado), new StyleConfig(StyleConfig.Align.LEFT, gray, 10)));
 
 
-        for(TransacList anulacionTransList : listaAnulacionesCierre){
+        for (TransacList anulacionTransList : listaAnulacionesCierre) {
 
             String numCargo = anulacionTransList.getNumeroAprobacion();
             String estado = anulacionTransList.getEstado();
@@ -778,13 +772,7 @@ public class ReimpresionScreenRepositoryImpl implements ReimpresionScreenReposit
         }
 
 
-
-
     }
-
-
-
-
 
 
     /**

@@ -4,7 +4,7 @@ package com.cofrem.transacciones.lib;
  * Created by luispineda on 13/07/17.
  */
 
-public class StyleConfig{
+public class StyleConfig {
     public FontFamily fontFamily;
     public FontSize fontSize;
     public FontStyle fontStyle;
@@ -23,7 +23,7 @@ public class StyleConfig{
         this.newLine = true;
     }
 
-    public StyleConfig(StyleConfig.Align align, int gray,StyleConfig.FontSize fontSize) {
+    public StyleConfig(StyleConfig.Align align, int gray, StyleConfig.FontSize fontSize) {
         this.fontFamily = StyleConfig.FontFamily.DEFAULT;
         this.fontSize = fontSize;
         this.fontStyle = StyleConfig.FontStyle.NORMAL;
@@ -32,7 +32,8 @@ public class StyleConfig{
         this.align = align;
         this.newLine = true;
     }
-    public StyleConfig(StyleConfig.Align align, int gray,StyleConfig.FontSize fontSize,int lineSpace) {
+
+    public StyleConfig(StyleConfig.Align align, int gray, StyleConfig.FontSize fontSize, int lineSpace) {
         this.fontFamily = StyleConfig.FontFamily.DEFAULT;
         this.fontSize = fontSize;
         this.fontStyle = StyleConfig.FontStyle.NORMAL;
@@ -41,6 +42,7 @@ public class StyleConfig{
         this.align = align;
         this.newLine = true;
     }
+
     public StyleConfig(StyleConfig.Align align, int gray) {
         this.fontFamily = StyleConfig.FontFamily.DEFAULT;
         this.fontSize = StyleConfig.FontSize.F3;

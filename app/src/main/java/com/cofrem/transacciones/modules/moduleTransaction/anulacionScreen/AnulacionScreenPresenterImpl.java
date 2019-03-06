@@ -2,11 +2,11 @@ package com.cofrem.transacciones.modules.moduleTransaction.anulacionScreen;
 
 import android.content.Context;
 
-import com.cofrem.transacciones.modules.moduleTransaction.anulacionScreen.events.AnulacionScreenEvent;
-import com.cofrem.transacciones.modules.moduleTransaction.anulacionScreen.ui.AnulacionScreenView;
 import com.cofrem.transacciones.lib.EventBus;
 import com.cofrem.transacciones.lib.GreenRobotEventBus;
 import com.cofrem.transacciones.models.Transaccion;
+import com.cofrem.transacciones.modules.moduleTransaction.anulacionScreen.events.AnulacionScreenEvent;
+import com.cofrem.transacciones.modules.moduleTransaction.anulacionScreen.ui.AnulacionScreenView;
 
 public class AnulacionScreenPresenterImpl implements AnulacionScreenPresenter {
 
@@ -72,7 +72,7 @@ public class AnulacionScreenPresenterImpl implements AnulacionScreenPresenter {
 
     @Override
     public void imprimirRecibo(Context context, String stringCopia) {
-        anulacionScreenInteractor.imprimirRecibo(context,stringCopia);
+        anulacionScreenInteractor.imprimirRecibo(context, stringCopia);
     }
 
     /**

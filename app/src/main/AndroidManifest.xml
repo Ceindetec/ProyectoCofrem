@@ -95,6 +95,11 @@
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <!-- Configuration Screen / Module TestCommunication-->
         <activity
+            android:name=".modules.moduleConfiguration.ultimaTransaccionScreen.ui.UltimaTransaccionScreenActivity_"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <!-- Configuration Screen / Module TestCommunication-->
+        <activity
             android:name=".modules.moduleConfiguration.testCommunicationScreen.ui.TestCommunicationScreenActivity_"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />

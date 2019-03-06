@@ -2,11 +2,10 @@ package com.cofrem.transacciones.splashScreen;
 
 import android.content.Context;
 
-import com.cofrem.transacciones.models.InfoHeaderApp;
-import com.cofrem.transacciones.splashScreen.events.SplashScreenEvent;
-import com.cofrem.transacciones.splashScreen.ui.SplashScreenView;
 import com.cofrem.transacciones.lib.EventBus;
 import com.cofrem.transacciones.lib.GreenRobotEventBus;
+import com.cofrem.transacciones.splashScreen.events.SplashScreenEvent;
+import com.cofrem.transacciones.splashScreen.ui.SplashScreenView;
 
 public class SplashScreenPresenterImpl implements SplashScreenPresenter {
 

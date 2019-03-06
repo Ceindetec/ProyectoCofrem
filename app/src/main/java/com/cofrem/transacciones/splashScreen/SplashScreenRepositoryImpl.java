@@ -5,14 +5,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 
-import com.cofrem.transacciones.global.InfoGlobalSettings;
-import com.cofrem.transacciones.lib.PrinterHandler;
-import com.cofrem.transacciones.models.InfoHeaderApp;
-import com.cofrem.transacciones.splashScreen.events.SplashScreenEvent;
 import com.cofrem.transacciones.database.AppDatabase;
+import com.cofrem.transacciones.global.InfoGlobalSettings;
 import com.cofrem.transacciones.lib.EventBus;
 import com.cofrem.transacciones.lib.GreenRobotEventBus;
 import com.cofrem.transacciones.lib.MagneticHandler;
+import com.cofrem.transacciones.lib.PrinterHandler;
+import com.cofrem.transacciones.models.InfoHeaderApp;
+import com.cofrem.transacciones.splashScreen.events.SplashScreenEvent;
 
 import java.util.Arrays;
 

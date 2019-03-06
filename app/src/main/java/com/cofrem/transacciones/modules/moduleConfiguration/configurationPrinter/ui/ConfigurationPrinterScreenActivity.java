@@ -7,19 +7,18 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.view.KeyEvent;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cofrem.transacciones.ConfigurationScreenActivity_;
+import com.cofrem.transacciones.R;
 import com.cofrem.transacciones.global.InfoGlobalSettingsBlockButtons;
+import com.cofrem.transacciones.models.ConfigurationPrinter;
 import com.cofrem.transacciones.models.InfoHeaderApp;
 import com.cofrem.transacciones.modules.moduleConfiguration.configurationPrinter.ConfigurationPrinterScreenPresenter;
 import com.cofrem.transacciones.modules.moduleConfiguration.configurationPrinter.ConfigurationPrinterScreenPresenterImpl;
-import com.cofrem.transacciones.R;
-import com.cofrem.transacciones.models.ConfigurationPrinter;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

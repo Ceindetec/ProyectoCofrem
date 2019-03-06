@@ -6,6 +6,8 @@ import com.cofrem.transacciones.R;
 import com.cofrem.transacciones.database.AppDatabase;
 import com.cofrem.transacciones.global.InfoGlobalSettingsPrint;
 import com.cofrem.transacciones.global.InfoGlobalTransaccionSOAP;
+import com.cofrem.transacciones.lib.EventBus;
+import com.cofrem.transacciones.lib.GreenRobotEventBus;
 import com.cofrem.transacciones.lib.KsoapAsync;
 import com.cofrem.transacciones.lib.PrinterHandler;
 import com.cofrem.transacciones.lib.StyleConfig;
@@ -15,11 +17,8 @@ import com.cofrem.transacciones.models.Transaccion;
 import com.cofrem.transacciones.models.modelsWS.MessageWS;
 import com.cofrem.transacciones.models.modelsWS.TransactionWS;
 import com.cofrem.transacciones.models.modelsWS.modelTransaccion.InformacionSaldo;
-import com.cofrem.transacciones.models.modelsWS.modelTransaccion.InformacionTransaccion;
 import com.cofrem.transacciones.models.modelsWS.modelTransaccion.ResultadoTransaccion;
 import com.cofrem.transacciones.modules.moduleTransaction.saldoScreen.events.SaldoScreenEvent;
-import com.cofrem.transacciones.lib.EventBus;
-import com.cofrem.transacciones.lib.GreenRobotEventBus;
 
 import org.ksoap2.serialization.SoapObject;
 
@@ -204,7 +203,7 @@ public class SaldoScreenRepositoryImpl implements SaldoScreenRepository {
         PrintRow.printCofrem(context, printRows, gray, 10);
 
         printRows.add(new PrintRow(context.getResources().getString(
-                R.string.recibo_title_consulta_saldo), new StyleConfig(StyleConfig.Align.CENTER, gray,20)));
+                R.string.recibo_title_consulta_saldo), new StyleConfig(StyleConfig.Align.CENTER, gray, 20)));
 
 
         printRows.add(new PrintRow(context.getResources().getString(

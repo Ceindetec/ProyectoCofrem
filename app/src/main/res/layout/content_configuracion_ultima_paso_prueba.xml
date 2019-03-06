@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txvConfiguracionUltimaTransaccionTitle"
+        style="@style/StyleTextPrimaryLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/appMarginBottom"
+        android:text="@string/configuration_text_title_validar" />
+
+
+    <TextView
+        android:id="@+id/txvConfiguracionUltimaTransaccion"
+        style="@style/StyleTextPrimaryMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txvConfiguracionUltimaTransaccionTitle"
+        android:layout_marginBottom="@dimen/appMarginBottom"
+        android:text="@string/configuration_text_title_ultima"/>
+
+    <TextView
+        android:id="@+id/txvConfiguracionUltimaTransaccionResultado"
+        style="@style/StyleTextPrimaryMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/txvConfiguracionUltimaTransaccion"
+        android:layout_marginBottom="@dimen/appMarginBottom"
+        android:text="@string/configuration_text_esperando_respuesta"/>
+
+    <Button
+        android:id="@+id/btnConfiguracionUltimaTransaccionBotonSalir"
+        style="@style/StyleButtonExit"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/txvConfiguracionUltimaTransaccionResultado"
+        android:text="@string/general_text_button_salir" />
+
+
+</RelativeLayout>

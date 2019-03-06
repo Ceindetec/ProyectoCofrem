@@ -26,6 +26,7 @@ class TestCommunicationScreenInteractorImpl implements TestCommunicationScreenIn
         testCommunicationScreenRepository = new TestCommunicationScreenRepositoryImpl();
 
     }
+
     /**
      * #############################################################################################
      * Metodos sobrecargados de la interface

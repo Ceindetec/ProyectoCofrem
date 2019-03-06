@@ -16,16 +16,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cofrem.transacciones.MainScreenActivity_;
+import com.cofrem.transacciones.R;
+import com.cofrem.transacciones.TransactionScreenActivity_;
 import com.cofrem.transacciones.global.InfoGlobalSettingsBlockButtons;
+import com.cofrem.transacciones.lib.KeyBoard;
 import com.cofrem.transacciones.lib.MagneticHandler;
 import com.cofrem.transacciones.models.InfoHeaderApp;
 import com.cofrem.transacciones.models.PrintRow;
+import com.cofrem.transacciones.models.Transaccion;
 import com.cofrem.transacciones.modules.moduleTransaction.anulacionScreen.AnulacionScreenPresenter;
 import com.cofrem.transacciones.modules.moduleTransaction.anulacionScreen.AnulacionScreenPresenterImpl;
-import com.cofrem.transacciones.R;
-import com.cofrem.transacciones.TransactionScreenActivity_;
-import com.cofrem.transacciones.lib.KeyBoard;
-import com.cofrem.transacciones.models.Transaccion;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -45,6 +45,13 @@ public class AnulacionScreenActivity extends Activity implements AnulacionScreen
       #############################################################################################
      */
 
+    final static int PASO_CLAVE_ADMINISTRADOR = 0;
+    final static int PASO_NUMERO_CARGO = 1;
+    final static int PASO_NUMERO_DOCUMENTO = 2;
+    final static int PASO_VERIFICACION_VALOR = 3;
+    final static int PASO_DESLIZAR_TARJETA = 4;
+    final static int PASO_CLAVE_USUARIO = 5;
+    final static int PASO_TRANSACCION_EXITOSA = 6;
     /**
      * Declaracion de los Contoles
      */
@@ -58,7 +65,6 @@ public class AnulacionScreenActivity extends Activity implements AnulacionScreen
     TextView txvHeaderEstablecimiento;
     @ViewById
     TextView txvHeaderPunto;
-
     //Controles del modulo
     @ViewById
     RelativeLayout bodyContentAnulacionClaveAdministrador;
@@ -72,6 +78,8 @@ public class AnulacionScreenActivity extends Activity implements AnulacionScreen
     RelativeLayout bodyContentAnulacionDesliceTarjeta;
     @ViewById
     RelativeLayout bodyContentAnulacionLecturaIncorrecta;
+
+    //Paso transaction_anulacion_paso_verificacion_valor
     @ViewById
     RelativeLayout bodyContentAnulacionPassUsuario;
     @ViewById
@@ -80,28 +88,21 @@ public class AnulacionScreenActivity extends Activity implements AnulacionScreen
     RelativeLayout bodyContentAnulacionTransaccionErronea;
     @ViewById
     FrameLayout frlPgbHldTransactionAnulacion;
-
     //Paso transaction_anulacion_paso_clave_administrador
     @ViewById
     EditText edtAnulacionTransactionClaveAdministradorContenidoClave;
-
     //Paso transaction_anulacion_paso_numero_documento
     @ViewById
     EditText edtAnulacionTransactionNumeroDocumentoValor;
-
     //Paso transaction_anulacion_paso_numero_cargo
     @ViewById
     EditText edtAnulacionTransactionNumeroCargoContenidoValor;
-
-    //Paso transaction_anulacion_paso_verificacion_valor
-
     @ViewById
     TextView txvAnulacionTransactionVerificacionDatosNumeroCargo;
     @ViewById
     TextView txvAnulacionTransactionVerificacionDatosNumeroDocumento;
     @ViewById
     TextView txvAnulacionTransactionVerificacionDatosValorCantidad;
-
     //Paso transaction_anulacion_paso_deslice_tarjeta
     @ViewById
     TextView txvAnulacionTransactionDesliceTarjetaDatosNumeroCargo;
@@ -109,35 +110,21 @@ public class AnulacionScreenActivity extends Activity implements AnulacionScreen
     TextView txvAnulacionTransactionDesliceTarjetaDatosNumeroDocumento;
     @ViewById
     TextView txvAnulacionTransactionDesliceTarjetaDatosValorCantidad;
-
     //Paso content_transaction_anulacion_paso_pass_usuario
     @ViewById
     EditText edtAnulacionTransactionClaveUsuarioContenidoClave;
-
     //Paso content_transaction_anulacion_paso_transaccion_error
     @ViewById
     TextView txvAnulacionTransactionErrorDetalleTexto;
-
     /**
      * Model que almacena la transaccion actual
      */
     Transaccion modelTransaccion = new Transaccion();
-
     String passwordAdmin = "";
-
     /**
      * Pasos definidos
      */
     int pasoTransaction = 0; //Define el paso actual
-
-    final static int PASO_CLAVE_ADMINISTRADOR = 0;
-    final static int PASO_NUMERO_CARGO = 1;
-    final static int PASO_NUMERO_DOCUMENTO = 2;
-    final static int PASO_VERIFICACION_VALOR = 3;
-    final static int PASO_DESLIZAR_TARJETA = 4;
-    final static int PASO_CLAVE_USUARIO = 5;
-    final static int PASO_TRANSACCION_EXITOSA = 6;
-
     /**
      * #############################################################################################
      * Instanciamientos de las clases
@@ -809,7 +796,7 @@ public class AnulacionScreenActivity extends Activity implements AnulacionScreen
     public void imprimirRecibo() {
 
         //Imprime el recibo
-        anulacionScreenPresenter.imprimirRecibo(this,this.getResources().getString(
+        anulacionScreenPresenter.imprimirRecibo(this, this.getResources().getString(
                 R.string.recibo_copia_cliente));
 
     }

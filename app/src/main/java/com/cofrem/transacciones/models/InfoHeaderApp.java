@@ -2,6 +2,7 @@ package com.cofrem.transacciones.models;
 
 public class InfoHeaderApp {
 
+    private static InfoHeaderApp instance = null;
     /**
      * Modelo para el registro del InfoHeaderApp
      */
@@ -9,8 +10,6 @@ public class InfoHeaderApp {
     private String idPunto = "NO REGISTRA";
     private String nombreEstablecimiento = "NO REGISTRA";
     private String nombrePunto = "NO REGISTRA";
-
-    private static InfoHeaderApp instance = null;
 
     protected InfoHeaderApp() {
     }

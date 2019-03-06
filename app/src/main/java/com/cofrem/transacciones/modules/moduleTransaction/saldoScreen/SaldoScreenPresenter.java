@@ -2,8 +2,8 @@ package com.cofrem.transacciones.modules.moduleTransaction.saldoScreen;
 
 import android.content.Context;
 
-import com.cofrem.transacciones.modules.moduleTransaction.saldoScreen.events.SaldoScreenEvent;
 import com.cofrem.transacciones.models.Transaccion;
+import com.cofrem.transacciones.modules.moduleTransaction.saldoScreen.events.SaldoScreenEvent;
 
 public interface SaldoScreenPresenter {
 

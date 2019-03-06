@@ -2,11 +2,9 @@ package com.cofrem.transacciones.splashScreen.ui;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -17,12 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cofrem.transacciones.MainScreenActivity_;
-import com.cofrem.transacciones.global.InfoGlobalSettingsBlockButtons;
-import com.cofrem.transacciones.modules.moduleConfiguration.registerConfigurationScreen.ui.RegisterConfigurationScreenActivity_;
 import com.cofrem.transacciones.R;
+import com.cofrem.transacciones.global.InfoGlobalSettingsBlockButtons;
+import com.cofrem.transacciones.models.Configurations;
+import com.cofrem.transacciones.modules.moduleConfiguration.registerConfigurationScreen.ui.RegisterConfigurationScreenActivity_;
 import com.cofrem.transacciones.splashScreen.SplashScreenPresenter;
 import com.cofrem.transacciones.splashScreen.SplashScreenPresenterImpl;
-import com.cofrem.transacciones.models.Configurations;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

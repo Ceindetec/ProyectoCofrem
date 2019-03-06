@@ -2,11 +2,11 @@ package com.cofrem.transacciones.modules.moduleReports.reimpresionScreen;
 
 import android.content.Context;
 
-import com.cofrem.transacciones.modules.moduleReports.reimpresionScreen.events.ReimpresionScreenEvent;
-import com.cofrem.transacciones.modules.moduleReports.reimpresionScreen.ui.ReimpresionScreenView;
 import com.cofrem.transacciones.lib.EventBus;
 import com.cofrem.transacciones.lib.GreenRobotEventBus;
 import com.cofrem.transacciones.models.Transaccion;
+import com.cofrem.transacciones.modules.moduleReports.reimpresionScreen.events.ReimpresionScreenEvent;
+import com.cofrem.transacciones.modules.moduleReports.reimpresionScreen.ui.ReimpresionScreenView;
 
 public class ReimpresionScreenPresenterImpl implements ReimpresionScreenPresenter {
 
@@ -63,7 +63,7 @@ public class ReimpresionScreenPresenterImpl implements ReimpresionScreenPresente
 
     @Override
     public void validarClaveAdministrador(Context context, String clave) {
-        reimpresionScreenInteractor.validarClaveAdministrador(context,clave);
+        reimpresionScreenInteractor.validarClaveAdministrador(context, clave);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class ReimpresionScreenPresenterImpl implements ReimpresionScreenPresente
     @Override
     public void VerifySuccess() {
         if (reimpresionScreenView != null) {
-           // reimpresionScreenInteractor.validarPasswordTecnico();
+            // reimpresionScreenInteractor.validarPasswordTecnico();
         }
     }
 
@@ -195,10 +195,10 @@ public class ReimpresionScreenPresenterImpl implements ReimpresionScreenPresente
 
 
 /**
-     * #############################################################################################
-     * Metodo propios de la clase
-     * #############################################################################################
-     */
+ * #############################################################################################
+ * Metodo propios de la clase
+ * #############################################################################################
+ */
 
     /**
      * Metodo para manejar la verificacion exitosa
@@ -219,25 +219,26 @@ public class ReimpresionScreenPresenterImpl implements ReimpresionScreenPresente
     }
 
 
-    public void onVerifyExistenceUltimoReciboSuccess(Transaccion modeltgransaccion){
+    public void onVerifyExistenceUltimoReciboSuccess(Transaccion modeltgransaccion) {
         reimpresionScreenView.handleVerifyExistenceUltimoReciboSuccess(modeltgransaccion);
     }
 
-    public void onVerifyExistenceUltimoReciboError(){
+    public void onVerifyExistenceUltimoReciboError() {
         reimpresionScreenView.handleVerifyExistenceUltimoReciboError();
     }
 
-    public void onVerifyClaveAdministradorSuccess(){
+    public void onVerifyClaveAdministradorSuccess() {
         reimpresionScreenView.handleVerifyClaveAdministradorSuccess();
     }
 
-    public void onVerifyClaveAdministradorError(){
+    public void onVerifyClaveAdministradorError() {
         reimpresionScreenView.handleVerifyClaveAdministradorError();
     }
 
     private void onVerifyExistenceReporteDetalleSuccess() {
         reimpresionScreenView.handleVerifyExistenceReporteDetalleSuccess();
     }
+
     private void onVerifyExistenceReporteDetalleError() {
         reimpresionScreenView.handleVerifyExistenceReporteDetalleError();
     }
@@ -257,6 +258,7 @@ public class ReimpresionScreenPresenterImpl implements ReimpresionScreenPresente
     private void onImprimirReciboPorNumCargoError(String error) {
         reimpresionScreenView.handleImprimirReciboPorNumCargoError(error);
     }
+
     private void onImprimirReporteDetalleSuccess() {
         reimpresionScreenView.handleImprimirReporteDetalleSuccess();
     }

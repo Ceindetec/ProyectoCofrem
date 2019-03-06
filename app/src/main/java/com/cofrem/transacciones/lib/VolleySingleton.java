@@ -13,9 +13,9 @@ public final class VolleySingleton {
 
     // Atributos
     private static VolleySingleton singleton;
+    private static Context context;
     private ImageLoader imageLoader;
     private RequestQueue requestQueue;
-    private static Context context;
 
 
     /**

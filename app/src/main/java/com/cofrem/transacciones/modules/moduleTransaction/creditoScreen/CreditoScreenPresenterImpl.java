@@ -2,11 +2,11 @@ package com.cofrem.transacciones.modules.moduleTransaction.creditoScreen;
 
 import android.content.Context;
 
-import com.cofrem.transacciones.modules.moduleTransaction.creditoScreen.events.CreditoScreenEvent;
-import com.cofrem.transacciones.modules.moduleTransaction.creditoScreen.ui.CreditoScreenView;
 import com.cofrem.transacciones.lib.EventBus;
 import com.cofrem.transacciones.lib.GreenRobotEventBus;
 import com.cofrem.transacciones.models.Transaccion;
+import com.cofrem.transacciones.modules.moduleTransaction.creditoScreen.events.CreditoScreenEvent;
+import com.cofrem.transacciones.modules.moduleTransaction.creditoScreen.ui.CreditoScreenView;
 
 public class CreditoScreenPresenterImpl implements CreditoScreenPresenter {
 
@@ -83,7 +83,7 @@ public class CreditoScreenPresenterImpl implements CreditoScreenPresenter {
     @Override
     public void imprimirRecibo(Context context, String stringCopia) {
         if (creditoScreenView != null) {
-            creditoScreenInteractor.imprimirRecibo(context,stringCopia);
+            creditoScreenInteractor.imprimirRecibo(context, stringCopia);
         }
     }
 
@@ -171,6 +171,7 @@ public class CreditoScreenPresenterImpl implements CreditoScreenPresenter {
             creditoScreenView.handleImprimirReciboSuccess();
         }
     }
+
     /**
      * Metodo para manejar la transaccion del Web Service Correcta
      */

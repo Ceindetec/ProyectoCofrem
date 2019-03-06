@@ -3,11 +3,11 @@ package com.cofrem.transacciones.modules.moduleConfiguration.configurationPrinte
 
 import android.content.Context;
 
-import com.cofrem.transacciones.modules.moduleConfiguration.configurationPrinter.events.ConfigurationPrinterScreenEvent;
-import com.cofrem.transacciones.modules.moduleConfiguration.configurationPrinter.ui.ConfigurationPrinterScreenView;
 import com.cofrem.transacciones.lib.EventBus;
 import com.cofrem.transacciones.lib.GreenRobotEventBus;
 import com.cofrem.transacciones.models.ConfigurationPrinter;
+import com.cofrem.transacciones.modules.moduleConfiguration.configurationPrinter.events.ConfigurationPrinterScreenEvent;
+import com.cofrem.transacciones.modules.moduleConfiguration.configurationPrinter.ui.ConfigurationPrinterScreenView;
 
 public class ConfigurationPrinterScreenPresenterImpl implements ConfigurationPrinterScreenPresenter {
 
@@ -79,7 +79,7 @@ public class ConfigurationPrinterScreenPresenterImpl implements ConfigurationPri
     @Override
     public void saveConfigurationPrinter(Context context, ConfigurationPrinter configuration) {
         if (configurationPrinterScreenView != null) {
-            configurationPrinterScreenInteractor.saveConfigurationPrinter(context,configuration);
+            configurationPrinterScreenInteractor.saveConfigurationPrinter(context, configuration);
         }
     }
 
@@ -121,10 +121,10 @@ public class ConfigurationPrinterScreenPresenterImpl implements ConfigurationPri
     }
 
 /**
-     * #############################################################################################
-     * Metodo propios de la clase
-     * #############################################################################################
-     */
+ * #############################################################################################
+ * Metodo propios de la clase
+ * #############################################################################################
+ */
 
     /**
      * Metodo para manejar la verificacion exitosa
@@ -152,6 +152,7 @@ public class ConfigurationPrinterScreenPresenterImpl implements ConfigurationPri
             configurationPrinterScreenView.handleSaveConfigurationPrinterSuccess();
         }
     }
+
     /**
      * Metodo para manejar el insert de la configuracion con error
      */
@@ -164,7 +165,7 @@ public class ConfigurationPrinterScreenPresenterImpl implements ConfigurationPri
     /**
      * Metodo para manejar la impression de prueba exitosa
      */
-    private void onPrintTestSuccess(){
+    private void onPrintTestSuccess() {
         if (configurationPrinterScreenView != null) {
             configurationPrinterScreenView.handlePrintTestSuccess();
         }
@@ -173,7 +174,7 @@ public class ConfigurationPrinterScreenPresenterImpl implements ConfigurationPri
     /**
      * Metodo para manejar la impression de prueba con error
      */
-    private void onPrintTestError(String messageError){
+    private void onPrintTestError(String messageError) {
         if (configurationPrinterScreenView != null) {
             configurationPrinterScreenView.handlePrintTestError(messageError);
         }

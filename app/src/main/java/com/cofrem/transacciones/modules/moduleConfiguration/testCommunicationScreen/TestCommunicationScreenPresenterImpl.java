@@ -2,10 +2,10 @@ package com.cofrem.transacciones.modules.moduleConfiguration.testCommunicationSc
 
 import android.content.Context;
 
-import com.cofrem.transacciones.modules.moduleConfiguration.testCommunicationScreen.events.TestCommunicationScreenEvent;
-import com.cofrem.transacciones.modules.moduleConfiguration.testCommunicationScreen.ui.TestCommunicationScreenView;
 import com.cofrem.transacciones.lib.EventBus;
 import com.cofrem.transacciones.lib.GreenRobotEventBus;
+import com.cofrem.transacciones.modules.moduleConfiguration.testCommunicationScreen.events.TestCommunicationScreenEvent;
+import com.cofrem.transacciones.modules.moduleConfiguration.testCommunicationScreen.ui.TestCommunicationScreenView;
 
 public class TestCommunicationScreenPresenterImpl implements TestCommunicationScreenPresenter {
 

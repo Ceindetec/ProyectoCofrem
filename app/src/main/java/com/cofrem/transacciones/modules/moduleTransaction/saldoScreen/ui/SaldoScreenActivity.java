@@ -9,25 +9,24 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cofrem.transacciones.MainScreenActivity_;
+import com.cofrem.transacciones.R;
+import com.cofrem.transacciones.TransactionScreenActivity_;
 import com.cofrem.transacciones.global.InfoGlobalSettingsBlockButtons;
+import com.cofrem.transacciones.lib.KeyBoard;
 import com.cofrem.transacciones.lib.MagneticHandler;
 import com.cofrem.transacciones.models.InfoHeaderApp;
 import com.cofrem.transacciones.models.PrintRow;
+import com.cofrem.transacciones.models.Transaccion;
 import com.cofrem.transacciones.models.modelsWS.modelTransaccion.InformacionSaldo;
 import com.cofrem.transacciones.modules.moduleTransaction.saldoScreen.SaldoScreenPresenter;
 import com.cofrem.transacciones.modules.moduleTransaction.saldoScreen.SaldoScreenPresenterImpl;
-import com.cofrem.transacciones.R;
-import com.cofrem.transacciones.TransactionScreenActivity_;
-import com.cofrem.transacciones.MainScreenActivity_;
-import com.cofrem.transacciones.lib.KeyBoard;
-import com.cofrem.transacciones.models.Transaccion;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -47,6 +46,10 @@ public class SaldoScreenActivity extends Activity implements SaldoScreenView {
       #############################################################################################
      */
 
+    final static int PASO_NUMERO_DOCUMENTO = 0;
+    final static int PASO_DESLICE_TARJETA = 1;
+    final static int PASO_CLAVE_USUARIO = 2;
+    final static int PASO_TRANSACCION_EXITOSA = 3;
     /**
      * Declaracion de los Contoles
      */
@@ -60,7 +63,6 @@ public class SaldoScreenActivity extends Activity implements SaldoScreenView {
     TextView txvHeaderEstablecimiento;
     @ViewById
     TextView txvHeaderPunto;
-
     //Controles del modulo
     @ViewById
     RelativeLayout bodyContentSaldoNumeroDocumento;
@@ -72,25 +74,21 @@ public class SaldoScreenActivity extends Activity implements SaldoScreenView {
     RelativeLayout bodyContentSaldoPassUsuario;
     @ViewById
     RelativeLayout bodyContentSaldoTransaccionExitosa;
+
+    //Paso transaction_saldo_paso_lectura_incorrecta
     @ViewById
     RelativeLayout bodyContentSaldoTransaccionErronea;
     @ViewById
     FrameLayout frlPgbHldTransactionSaldo;
-
     //Paso transaction_saldo_paso_numero_documento
     @ViewById
     EditText edtSaldoTransactionNumeroDocumentoValor;
-
     //Paso transaction_saldo_paso_deslice_tarjeta
     @ViewById
     TextView txvSaldoTransactionDesliceTarjetaNumeroDocumento;
-
-    //Paso transaction_saldo_paso_lectura_incorrecta
-
     //Paso content_transaction_saldo_paso_pass_usuario
     @ViewById
     EditText edtSaldoTransactionClaveUsuarioContenidoClave;
-
     //Paso content_transaction_saldo_paso_transaccion_exitosa
     @ViewById
     TextView txvSaldoTransactionExitosaTarjetaValor;
@@ -98,26 +96,17 @@ public class SaldoScreenActivity extends Activity implements SaldoScreenView {
     TextView txvSaldoTransactionExitosaCedulaValor;
     @ViewById
     TextView txvSaldoTransactionExitosaSaldoCantidad;
-
     //Paso content_transaction_saldo_paso_transaccion_error
     @ViewById
     TextView txvSaldoTransactionErrorDetalleTexto;
-
     /**
      * Model que almacena la transaccion actual
      */
     Transaccion modelTransaccion = new Transaccion();
-
     /**
      * Pasos definidos
      */
     int pasoTransaccion = 0; //Define el paso actual
-
-    final static int PASO_NUMERO_DOCUMENTO = 0;
-    final static int PASO_DESLICE_TARJETA = 1;
-    final static int PASO_CLAVE_USUARIO = 2;
-    final static int PASO_TRANSACCION_EXITOSA = 3;
-
     /**
      * #############################################################################################
      * Instanciamientos de las clases

@@ -7,6 +7,8 @@ import com.cofrem.transacciones.R;
 import com.cofrem.transacciones.database.AppDatabase;
 import com.cofrem.transacciones.global.InfoGlobalSettingsPrint;
 import com.cofrem.transacciones.global.InfoGlobalTransaccionSOAP;
+import com.cofrem.transacciones.lib.EventBus;
+import com.cofrem.transacciones.lib.GreenRobotEventBus;
 import com.cofrem.transacciones.lib.KsoapAsync;
 import com.cofrem.transacciones.lib.MD5;
 import com.cofrem.transacciones.lib.PrinterHandler;
@@ -19,8 +21,6 @@ import com.cofrem.transacciones.models.modelsWS.TransactionWS;
 import com.cofrem.transacciones.models.modelsWS.modelTransaccion.InformacionTransaccion;
 import com.cofrem.transacciones.models.modelsWS.modelTransaccion.ResultadoTransaccion;
 import com.cofrem.transacciones.modules.moduleTransaction.anulacionScreen.events.AnulacionScreenEvent;
-import com.cofrem.transacciones.lib.EventBus;
-import com.cofrem.transacciones.lib.GreenRobotEventBus;
 
 import org.ksoap2.serialization.SoapObject;
 
@@ -119,7 +119,7 @@ public class AnulacionScreenRepositoryImpl implements AnulacionScreenRepository 
                     modelTransaccion = transaccion;
 
                     //Imprime el recibo
-                    imprimirRecibo(context,context.getResources().getString(
+                    imprimirRecibo(context, context.getResources().getString(
                             R.string.recibo_copia_comercio));
 
                 } else {
@@ -301,7 +301,7 @@ public class AnulacionScreenRepositoryImpl implements AnulacionScreenRepository 
 //        printRows.add(new PrintRow(context.getResources().getString(
 //                R.string.recibo_fecha),fecha_transaccion, new StyleConfig(StyleConfig.Align.LEFT, gray)));
         printRows.add(new PrintRow(context.getResources().getString(
-                R.string.recibo_fecha_anulacion),modelTransaccionAnulada.getFullFechaServer(), new StyleConfig(StyleConfig.Align.LEFT, gray, 20)));
+                R.string.recibo_fecha_anulacion), modelTransaccionAnulada.getFullFechaServer(), new StyleConfig(StyleConfig.Align.LEFT, gray, 20)));
 
         printRows.add(new PrintRow(context.getResources().getString(
                 R.string.recibo_separador_afiliado), new StyleConfig(StyleConfig.Align.LEFT, gray, StyleConfig.FontSize.F1)));
@@ -310,7 +310,7 @@ public class AnulacionScreenRepositoryImpl implements AnulacionScreenRepository 
                 R.string.recibo_numero_documento), modelTransaccion.getNumero_documento(), new StyleConfig(StyleConfig.Align.LEFT, gray)));
         printRows.add(new PrintRow(modelTransaccion.getNombre_usuario(), new StyleConfig(StyleConfig.Align.LEFT, gray)));
         printRows.add(new PrintRow(context.getResources().getString(
-                R.string.recibo_numero_tarjeta), PrinterHandler.getFormatNumTarjeta(modelTransaccion.getNumero_tarjeta()), new StyleConfig(StyleConfig.Align.LEFT, gray,20)));
+                R.string.recibo_numero_tarjeta), PrinterHandler.getFormatNumTarjeta(modelTransaccion.getNumero_tarjeta()), new StyleConfig(StyleConfig.Align.LEFT, gray, 20)));
 
 
         printRows.add(new PrintRow(context.getResources().getString(
@@ -319,22 +319,21 @@ public class AnulacionScreenRepositoryImpl implements AnulacionScreenRepository 
                 R.string.recibo_valor_anulado), PrintRow.numberFormat(modelTransaccionAnulada.getValor()), new StyleConfig(StyleConfig.Align.LEFT, gray)));
 
 
-
         printRows.add(new PrintRow(context.getResources().getString(
                 R.string.recibo_entidad), new StyleConfig(StyleConfig.Align.CENTER, gray, StyleConfig.FontSize.F3)));
         printRows.add(new PrintRow(context.getResources().getString(
-                R.string.recibo_vigilado), new StyleConfig(StyleConfig.Align.CENTER, gray, StyleConfig.FontSize.F3,20)));
-        printRows.add(new PrintRow(stringCopia, new StyleConfig(StyleConfig.Align.CENTER, gray, StyleConfig.FontSize.F3,60)));
+                R.string.recibo_vigilado), new StyleConfig(StyleConfig.Align.CENTER, gray, StyleConfig.FontSize.F3, 20)));
+        printRows.add(new PrintRow(stringCopia, new StyleConfig(StyleConfig.Align.CENTER, gray, StyleConfig.FontSize.F3, 60)));
 
 
         printRows.add(new PrintRow(".", new StyleConfig(StyleConfig.Align.LEFT, 1)));
 
         int status = new PrinterHandler().imprimerTexto(printRows);
 
-        if (status == InfoGlobalSettingsPrint.PRINTER_OK){
+        if (status == InfoGlobalSettingsPrint.PRINTER_OK) {
             int i = 0;
-        }else{
-            int i = 1 ;
+        } else {
+            int i = 1;
         }
 
 

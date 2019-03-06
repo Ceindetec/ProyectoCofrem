@@ -2,12 +2,12 @@ package com.cofrem.transacciones.modules.moduleTransaction.saldoScreen;
 
 import android.content.Context;
 
-import com.cofrem.transacciones.models.modelsWS.modelTransaccion.InformacionSaldo;
-import com.cofrem.transacciones.modules.moduleTransaction.saldoScreen.events.SaldoScreenEvent;
-import com.cofrem.transacciones.modules.moduleTransaction.saldoScreen.ui.SaldoScreenView;
 import com.cofrem.transacciones.lib.EventBus;
 import com.cofrem.transacciones.lib.GreenRobotEventBus;
 import com.cofrem.transacciones.models.Transaccion;
+import com.cofrem.transacciones.models.modelsWS.modelTransaccion.InformacionSaldo;
+import com.cofrem.transacciones.modules.moduleTransaction.saldoScreen.events.SaldoScreenEvent;
+import com.cofrem.transacciones.modules.moduleTransaction.saldoScreen.ui.SaldoScreenView;
 
 public class SaldoScreenPresenterImpl implements SaldoScreenPresenter {
 
@@ -137,6 +137,7 @@ public class SaldoScreenPresenterImpl implements SaldoScreenPresenter {
             saldoScreenView.handleTransaccionWSConexionError();
         }
     }
+
     /**
      * Metodo para manejar la transaccion del Web Service Correcta
      */
@@ -145,6 +146,7 @@ public class SaldoScreenPresenterImpl implements SaldoScreenPresenter {
             saldoScreenView.handleImprimirReciboSuccess();
         }
     }
+
     /**
      * Metodo para manejar la transaccion del Web Service Correcta
      */

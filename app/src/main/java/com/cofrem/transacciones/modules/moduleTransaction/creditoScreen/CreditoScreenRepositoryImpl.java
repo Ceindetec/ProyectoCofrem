@@ -3,22 +3,22 @@ package com.cofrem.transacciones.modules.moduleTransaction.creditoScreen;
 import android.content.Context;
 
 import com.cofrem.transacciones.R;
-import com.cofrem.transacciones.global.InfoGlobalSettingsPrint;
-import com.cofrem.transacciones.lib.PrinterHandler;
-import com.cofrem.transacciones.lib.StyleConfig;
-import com.cofrem.transacciones.models.ConfigurationPrinter;
-import com.cofrem.transacciones.models.PrintRow;
-import com.cofrem.transacciones.modules.moduleTransaction.creditoScreen.events.CreditoScreenEvent;
 import com.cofrem.transacciones.database.AppDatabase;
+import com.cofrem.transacciones.global.InfoGlobalSettingsPrint;
 import com.cofrem.transacciones.global.InfoGlobalTransaccionSOAP;
 import com.cofrem.transacciones.lib.EventBus;
 import com.cofrem.transacciones.lib.GreenRobotEventBus;
 import com.cofrem.transacciones.lib.KsoapAsync;
+import com.cofrem.transacciones.lib.PrinterHandler;
+import com.cofrem.transacciones.lib.StyleConfig;
+import com.cofrem.transacciones.models.ConfigurationPrinter;
+import com.cofrem.transacciones.models.PrintRow;
+import com.cofrem.transacciones.models.Transaccion;
 import com.cofrem.transacciones.models.modelsWS.MessageWS;
+import com.cofrem.transacciones.models.modelsWS.TransactionWS;
 import com.cofrem.transacciones.models.modelsWS.modelTransaccion.InformacionTransaccion;
 import com.cofrem.transacciones.models.modelsWS.modelTransaccion.ResultadoTransaccion;
-import com.cofrem.transacciones.models.modelsWS.TransactionWS;
-import com.cofrem.transacciones.models.Transaccion;
+import com.cofrem.transacciones.modules.moduleTransaction.creditoScreen.events.CreditoScreenEvent;
 
 import org.ksoap2.serialization.SoapObject;
 
@@ -33,6 +33,7 @@ public class CreditoScreenRepositoryImpl implements CreditoScreenRepository {
      * #############################################################################################
      */
 
+    int intentos = 0;
 
     /**
      * #############################################################################################
@@ -66,32 +67,69 @@ public class CreditoScreenRepositoryImpl implements CreditoScreenRepository {
 
             if (messageWS.getCodigoMensaje() == MessageWS.statusTransaccionExitosa) {
 
-                //Registro en la base de datos de la transaccion
-                if (registrarTransaccionConsumoDB(context, resultadoTransaccion.getInformacionTransaccion())) {
+                procesarTransaccion(context, resultadoTransaccion);
 
-                    postEvent(CreditoScreenEvent.onTransaccionSuccess);
-
-                    //Imprime el recibo
-                    imprimirRecibo(context,context.getResources().getString(
-                            R.string.recibo_copia_comercio));
-
-                } else {
-
-                    //Error en el registro en la Base de Datos la transaccion
-                    postEvent(CreditoScreenEvent.onTransaccionDBRegisterError);
-
-                }
             } else {
-                //Error en el registro de la transaccion del web service
-                postEvent(CreditoScreenEvent.onTransaccionWSRegisterError, messageWS.getDetalleMensaje());
+
+                boolean validacion = false;
+
+                ResultadoTransaccion resultadoTransaccionValidar = null;
+
+                do {
+
+                    intentos++;
+
+                    resultadoTransaccionValidar = validarUltimaTransaccionWS(context);
+                    try {
+                        if (resultadoTransaccionValidar.getInformacionTransaccion() != null) {
+                            if (resultadoTransaccionValidar.getInformacionTransaccion().getCedulaUsuario() == transaccion.getNumero_documento() &&
+                                    resultadoTransaccionValidar.getInformacionTransaccion().getNumeroTarjeta() == transaccion.getNumero_tarjeta() &&
+                                    Integer.valueOf(resultadoTransaccionValidar.getInformacionTransaccion().getValor()) == transaccion.getValor() &&
+                                    Integer.valueOf(resultadoTransaccionValidar.getInformacionTransaccion().getTipoTransaccion()) == transaccion.getTipo_transaccion() &&
+                                    Integer.valueOf(resultadoTransaccionValidar.getInformacionTransaccion().getTipoServicio()) == transaccion.getTipo_servicio()
+                                    )
+                                validacion = true;
+                        }
+                    } catch (NullPointerException e) {
+//                        Log.e("CofremTransaction", e.getMessage().toString());
+                    }
+
+                } while (validacion || intentos <= 3);
+
+                if (validacion)
+                    procesarTransaccion(context, resultadoTransaccionValidar);
+                else
+                    postEvent(CreditoScreenEvent.onTransaccionWSRegisterError, messageWS.getDetalleMensaje());
+
             }
         } else {
             //Error en la conexion con el Web Service
             postEvent(CreditoScreenEvent.onTransaccionWSConexionError);
+
         }
 
     }
 
+
+    private void procesarTransaccion(Context context, ResultadoTransaccion resultadoTransaccion) {
+
+        //Registro en la base de datos de la transaccion
+        if (registrarTransaccionConsumoDB(context, resultadoTransaccion.getInformacionTransaccion())) {
+
+            postEvent(CreditoScreenEvent.onTransaccionSuccess);
+
+            //Imprime el recibo
+            imprimirRecibo(context, context.getResources().getString(R.string.recibo_copia_comercio));
+
+        } else {
+
+            //Error en el registro en la Base de Datos la transaccion
+            postEvent(CreditoScreenEvent.onTransaccionDBRegisterError);
+
+        }
+
+
+    }
 
     /**
      * #############################################################################################
@@ -108,7 +146,8 @@ public class CreditoScreenRepositoryImpl implements CreditoScreenRepository {
      * @param transaccion datos de la transaccion
      * @return regreso del resultado de la transaccion
      */
-    private ResultadoTransaccion registrarTransaccionConsumoWS(Context context, Transaccion transaccion) {
+    private ResultadoTransaccion registrarTransaccionConsumoWS(Context context, Transaccion
+            transaccion) {
 
         //Se crea una variable de estado de la transaccion
         ResultadoTransaccion resultadoTransaccion = null;
@@ -196,12 +235,95 @@ public class CreditoScreenRepositoryImpl implements CreditoScreenRepository {
     }
 
     /**
+     * Metodo que:
+     * - registra mediante el WS la transaccion
+     * - Extrae el estado de la transaccion
+     *
+     * @param context contexto desde la cual se realiza la transaccion
+     * @return regreso del resultado de la transaccion
+     */
+    private ResultadoTransaccion validarUltimaTransaccionWS(Context context) {
+
+        //Se crea una variable de estado de la transaccion
+        ResultadoTransaccion resultadoTransaccion = null;
+
+        //Inicializacion y declaracion de parametros para la peticion web service
+        String[][] params = {
+                {InfoGlobalTransaccionSOAP.PARAM_NAME_TRANSACCION_CODIGO_TERMINAL, AppDatabase.getInstance(context).obtenerCodigoTerminal()}
+        };
+
+        //Creacion del modelo TransactionWS para ser usado dentro del webservice
+        TransactionWS transactionWS = new TransactionWS(
+                InfoGlobalTransaccionSOAP.HTTP + AppDatabase.getInstance(context).obtenerURLConfiguracionConexion() + InfoGlobalTransaccionSOAP.WEB_SERVICE_URI,
+                InfoGlobalTransaccionSOAP.HTTP + InfoGlobalTransaccionSOAP.NAME_SPACE,
+                InfoGlobalTransaccionSOAP.METHOD_NAME_VALIDACION,
+                params);
+
+        //Inicializacion del objeto que sera devuelto por la transaccion del webservice
+        SoapObject soapTransaction = null;
+
+        try {
+
+            //Transaccion solicitada al web service
+            soapTransaction = new KsoapAsync(new KsoapAsync.ResponseKsoapAsync() {
+
+                /**
+                 * Metodo sobrecargado que maneja el callback de los datos
+                 *
+                 * @param soapResponse
+                 * @return
+                 */
+                @Override
+                public SoapObject processFinish(SoapObject soapResponse) {
+                    return soapResponse;
+                }
+
+            }).execute(transactionWS).get();
+
+        } catch (InterruptedException | ExecutionException e) {
+
+            e.printStackTrace();
+
+        }
+
+        //Si la transaccion no genero resultado regresa un establecimiento vacio
+        if (soapTransaction != null) {
+
+            //Inicializacion del modelo MessageWS
+            MessageWS messageWS = new MessageWS((SoapObject) soapTransaction.getProperty(MessageWS.PROPERTY_MESSAGE));
+
+            switch (messageWS.getCodigoMensaje()) {
+
+                //Transaccion exitosa
+                case MessageWS.statusTransaccionExitosa:
+
+                    InformacionTransaccion informacionTransaccion = new InformacionTransaccion((SoapObject) soapTransaction.getProperty(InformacionTransaccion.PROPERTY_TRANSAC_RESULT));
+
+                    resultadoTransaccion = new ResultadoTransaccion(informacionTransaccion, messageWS);
+
+                    break;
+
+                default:
+
+                    resultadoTransaccion = new ResultadoTransaccion(messageWS);
+
+                    break;
+            }
+
+        }
+
+        //Retorno de estado de transaccion
+        return resultadoTransaccion;
+    }
+
+    /**
      * Metodo que registra en la base de datos interna la transaccion
      *
      * @param context
      * @return
      */
-    private boolean registrarTransaccionConsumoDB(Context context, InformacionTransaccion informacionTransaccion) {
+    private boolean registrarTransaccionConsumoDB(Context context, InformacionTransaccion
+            informacionTransaccion) {
 
         //Se crea una variable de estado de la transaccion
         boolean statusTransaction = false;

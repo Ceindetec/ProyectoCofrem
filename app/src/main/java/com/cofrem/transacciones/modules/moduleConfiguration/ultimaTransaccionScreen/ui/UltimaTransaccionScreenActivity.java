@@ -1,4 +1,4 @@
-package com.cofrem.transacciones.modules.moduleConfiguration.testCommunicationScreen.ui;
+package com.cofrem.transacciones.modules.moduleConfiguration.ultimaTransaccionScreen.ui;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -15,16 +15,16 @@ import com.cofrem.transacciones.ConfigurationScreenActivity_;
 import com.cofrem.transacciones.R;
 import com.cofrem.transacciones.global.InfoGlobalSettingsBlockButtons;
 import com.cofrem.transacciones.models.InfoHeaderApp;
-import com.cofrem.transacciones.modules.moduleConfiguration.testCommunicationScreen.TestCommunicationScreenPresenter;
-import com.cofrem.transacciones.modules.moduleConfiguration.testCommunicationScreen.TestCommunicationScreenPresenterImpl;
+import com.cofrem.transacciones.modules.moduleConfiguration.ultimaTransaccionScreen.UltimaTransaccionScreenPresenter;
+import com.cofrem.transacciones.modules.moduleConfiguration.ultimaTransaccionScreen.UltimaTransaccionScreenPresenterImpl;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-@EActivity(R.layout.activity_configuration_test_screen)
-public class TestCommunicationScreenActivity extends Activity implements TestCommunicationScreenView {
+@EActivity(R.layout.activity_configuration_ultima_screen)
+public class UltimaTransaccionScreenActivity extends Activity implements UltimaTransaccionScreenView {
 
     /**
      * #############################################################################################
@@ -47,11 +47,9 @@ public class TestCommunicationScreenActivity extends Activity implements TestCom
     @ViewById
     TextView txvHeaderPunto;
     @ViewById
-    TextView txvConfiguracionConexionPruebaNumCargo;
+    TextView txvConfiguracionUltimaTransaccionResultado;
     @ViewById
-    TextView txvConfiguracionConexionPruebaResultado;
-    @ViewById
-    FrameLayout frlPgbHldTestComunication;
+    FrameLayout frlPgbHldUltimaTransaccion;
 
     /**
      * #############################################################################################
@@ -59,7 +57,7 @@ public class TestCommunicationScreenActivity extends Activity implements TestCom
      * #############################################################################################
      */
     //Instanciamiento de la interface SaldoScreenPresenter
-    private TestCommunicationScreenPresenter testCommunicationScreenPresenter;
+    private UltimaTransaccionScreenPresenter ultimaTransaccionScreenPresenter;
 
 
     /**
@@ -73,15 +71,12 @@ public class TestCommunicationScreenActivity extends Activity implements TestCom
         /**
          * Instanciamiento e inicializacion del presentador
          */
-        testCommunicationScreenPresenter = new TestCommunicationScreenPresenterImpl(this);
+        ultimaTransaccionScreenPresenter = new UltimaTransaccionScreenPresenterImpl(this);
 
         /**
          * Llamada al metodo onCreate del presentador para el registro del bus de datos
          */
-        testCommunicationScreenPresenter.onCreate();
-
-        // Metodo que oculta por defecto los include de la vista
-        inicializarOcultamientoVistas();
+        ultimaTransaccionScreenPresenter.onCreate();
 
         // Metodo para colocar la orientacion de la app
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -89,7 +84,7 @@ public class TestCommunicationScreenActivity extends Activity implements TestCom
         //Coloca la informacion del encabezado
         setInfoHeader();
 
-        testCommunicationScreenPresenter.testComunication(this);
+        ultimaTransaccionScreenPresenter.validarUltimaTransaccion(this);
 
         showProgress();
     }
@@ -105,7 +100,7 @@ public class TestCommunicationScreenActivity extends Activity implements TestCom
      */
     @Override
     public void onDestroy() {
-        testCommunicationScreenPresenter.onDestroy();
+        ultimaTransaccionScreenPresenter.onDestroy();
         super.onDestroy();
     }
 
@@ -143,20 +138,13 @@ public class TestCommunicationScreenActivity extends Activity implements TestCom
      * #############################################################################################
      */
 
-    /**
-     * Metodo para manejar la verificacion exitosa
-     */
-    public void handleVerifySuccess() {
-
-    }
-
     @Override
-    public void handleTestComunicationSuccess() {
+    public void onValidarUltimaTransaccionCorrecta() {
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                txvConfiguracionConexionPruebaResultado.setText(R.string.configuration_text_exitosa);
+                txvConfiguracionUltimaTransaccionResultado.setText(R.string.configuration_text_ultima_correcta);
                 hideProgress();
             }
         }, 2000);
@@ -164,11 +152,23 @@ public class TestCommunicationScreenActivity extends Activity implements TestCom
     }
 
     @Override
-    public void handleTestComunicationError(final String error) {
+    public void onValidarUltimaTransaccionErronea() {
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                txvConfiguracionConexionPruebaResultado.setText(error);
+                txvConfiguracionUltimaTransaccionResultado.setText(R.string.configuration_text_ultima_erronea);
+                hideProgress();
+            }
+        }, 2000);
+    }
+
+    @Override
+    public void onValidarUltimaTransaccionError(final String error) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                txvConfiguracionUltimaTransaccionResultado.setText(error);
                 hideProgress();
             }
         }, 500);
@@ -179,43 +179,22 @@ public class TestCommunicationScreenActivity extends Activity implements TestCom
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                txvConfiguracionConexionPruebaResultado.setText(R.string.configuration_text_informacion_dispositivo_error_conexion);
+                txvConfiguracionUltimaTransaccionResultado.setText(R.string.configuration_text_informacion_dispositivo_error_conexion);
                 hideProgress();
             }
         }, 500);
     }
 
     /**
-     * Metodo para navegar a la ventana de transacciones
+     *
      */
-    @Override
-    public void navigateTransactionView() {
-
-    }
-
-    /**
-     * Metodo para navegar a la ventana de reportes
-     */
-    @Override
-    public void navigateToReportsView() {
-
-    }
-
-    /**
-     * Metodo para navegar a la ventana de configuraciones
-     */
-    @Override
-    public void navigateToConfigurationView() {
-
-    }
-
-    @Click(R.id.btnConfiguracionConexionPruebaBotonSalir)
-    void cancelConfigurationPrinter() {
+    @Click(R.id.btnConfiguracionUltimaTransaccionBotonSalir)
+    void returnConfiguracionScreenActivity() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
 
-                Intent intent = new Intent(TestCommunicationScreenActivity.this, ConfigurationScreenActivity_.class);
+                Intent intent = new Intent(UltimaTransaccionScreenActivity.this, ConfigurationScreenActivity_.class);
                 //Agregadas banderas para no retorno
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                         | Intent.FLAG_ACTIVITY_NEW_TASK
@@ -237,24 +216,16 @@ public class TestCommunicationScreenActivity extends Activity implements TestCom
      * Metodo para mostrar la barra de progreso
      */
     private void showProgress() {
-        frlPgbHldTestComunication.setVisibility(View.VISIBLE);
-        frlPgbHldTestComunication.bringToFront();
-        frlPgbHldTestComunication.invalidate();
+        frlPgbHldUltimaTransaccion.setVisibility(View.VISIBLE);
+        frlPgbHldUltimaTransaccion.bringToFront();
+        frlPgbHldUltimaTransaccion.invalidate();
     }
 
     /**
      * Metodo para ocultar la barra de progreso
      */
     private void hideProgress() {
-        frlPgbHldTestComunication.setVisibility(View.GONE);
-    }
-
-    /**
-     * Metodo que oculta por defecto los include de la vista
-     */
-    private void inicializarOcultamientoVistas() {
-
-
+        frlPgbHldUltimaTransaccion.setVisibility(View.GONE);
     }
 
     /**

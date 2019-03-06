@@ -3,15 +3,15 @@ package com.cofrem.transacciones.modules.moduleConfiguration.configurationPrinte
 import android.content.Context;
 
 import com.cofrem.transacciones.R;
-import com.cofrem.transacciones.global.InfoGlobalSettingsPrint;
-import com.cofrem.transacciones.lib.PrinterHandler;
-import com.cofrem.transacciones.lib.StyleConfig;
-import com.cofrem.transacciones.models.PrintRow;
-import com.cofrem.transacciones.modules.moduleConfiguration.configurationPrinter.events.ConfigurationPrinterScreenEvent;
 import com.cofrem.transacciones.database.AppDatabase;
+import com.cofrem.transacciones.global.InfoGlobalSettingsPrint;
 import com.cofrem.transacciones.lib.EventBus;
 import com.cofrem.transacciones.lib.GreenRobotEventBus;
+import com.cofrem.transacciones.lib.PrinterHandler;
+import com.cofrem.transacciones.lib.StyleConfig;
 import com.cofrem.transacciones.models.ConfigurationPrinter;
+import com.cofrem.transacciones.models.PrintRow;
+import com.cofrem.transacciones.modules.moduleConfiguration.configurationPrinter.events.ConfigurationPrinterScreenEvent;
 
 import java.util.ArrayList;
 
@@ -45,9 +45,9 @@ public class ConfigurationPrinterScreenRepositoryImpl implements ConfigurationPr
 
         ConfigurationPrinter configuracion = AppDatabase.getInstance(context).getConfigurationPrinter();
 
-        if(configuracion!=null){
-            postEvent(ConfigurationPrinterScreenEvent.onVerifyConfigurationInitialSuccess,configuracion);
-        }else{
+        if (configuracion != null) {
+            postEvent(ConfigurationPrinterScreenEvent.onVerifyConfigurationInitialSuccess, configuracion);
+        } else {
             postEvent(ConfigurationPrinterScreenEvent.onVerifyConfigurationInitialError);
         }
 
@@ -55,9 +55,9 @@ public class ConfigurationPrinterScreenRepositoryImpl implements ConfigurationPr
 
     @Override
     public void saveConfigurationPrinter(Context context, ConfigurationPrinter configuration) {
-        if(AppDatabase.getInstance(context).insertConfigurationPrinter(configuration)){
+        if (AppDatabase.getInstance(context).insertConfigurationPrinter(configuration)) {
             postEvent(ConfigurationPrinterScreenEvent.onSaveConfigurationPrinterSuccess);
-        }else{
+        } else {
             postEvent(ConfigurationPrinterScreenEvent.onSaveConfigurationPrinterError);
         }
     }
@@ -75,7 +75,7 @@ public class ConfigurationPrinterScreenRepositoryImpl implements ConfigurationPr
 
         //se siguen agregando cado auno de los String a los renglones (Rows) del recibo para imprimir
         printRows.add(new PrintRow(context.getResources().getString(
-                R.string.recibo_title_prueba_impresora), new StyleConfig(StyleConfig.Align.CENTER, gray,50)));
+                R.string.recibo_title_prueba_impresora), new StyleConfig(StyleConfig.Align.CENTER, gray, 50)));
 
         printRows.add(new PrintRow(".", new StyleConfig(StyleConfig.Align.LEFT, 1)));
 
@@ -84,7 +84,7 @@ public class ConfigurationPrinterScreenRepositoryImpl implements ConfigurationPr
         if (status == InfoGlobalSettingsPrint.PRINTER_OK) {
             postEvent(ConfigurationPrinterScreenEvent.onPrintTestSuccess);
         } else {
-            postEvent(ConfigurationPrinterScreenEvent.onPrintTestError,PrinterHandler.stringErrorPrinter(status, context));
+            postEvent(ConfigurationPrinterScreenEvent.onPrintTestError, PrinterHandler.stringErrorPrinter(status, context));
         }
 
     }

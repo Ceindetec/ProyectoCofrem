@@ -11,7 +11,6 @@ import android.text.InputFilter;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -20,14 +19,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cofrem.transacciones.ConfigurationScreenActivity_;
+import com.cofrem.transacciones.R;
 import com.cofrem.transacciones.global.InfoGlobalSettingsBlockButtons;
+import com.cofrem.transacciones.lib.KeyBoard;
+import com.cofrem.transacciones.models.Configurations;
 import com.cofrem.transacciones.models.InfoHeaderApp;
 import com.cofrem.transacciones.modules.moduleConfiguration.registerConfigurationScreen.RegisterConfigurationScreenPresenter;
 import com.cofrem.transacciones.modules.moduleConfiguration.registerConfigurationScreen.RegisterConfigurationScreenPresenterImpl;
-import com.cofrem.transacciones.R;
 import com.cofrem.transacciones.splashScreen.ui.SplashScreenActivity_;
-import com.cofrem.transacciones.lib.KeyBoard;
-import com.cofrem.transacciones.models.Configurations;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -47,9 +46,12 @@ public class RegisterConfigurationScreenActivity extends Activity implements Reg
       #############################################################################################
      */
 
+    final static int PASO_PASS_TECNICO = 0;
+    final static int PASO_HOST = 1;
+    final static int PASO_PORT = 2;
+    final static int PASO_DISPOSITIVO = 3;
     //Almacena el valor de la pantalla anterior
     int valorRetorno;
-
     /**
      * Declaracion de los Contoles
      */
@@ -63,7 +65,6 @@ public class RegisterConfigurationScreenActivity extends Activity implements Reg
     TextView txvHeaderEstablecimiento;
     @ViewById
     TextView txvHeaderPunto;
-
     //Controles del modulo
     @ViewById
     RelativeLayout bodyContentConfigurationPassTecnico;
@@ -77,44 +78,31 @@ public class RegisterConfigurationScreenActivity extends Activity implements Reg
     RelativeLayout bodyContentConfigurationExito;
     @ViewById
     FrameLayout frlPgbHldRegisterScreen;
-
     //Paso configuracion_register_paso_pass_tecnico
     @ViewById
     Button btnConfiguracionRegisterPassTecnicoBotonCancelar;
     @ViewById
     EditText edtConfiguracionRegisterPassTecnicoContenidoClave;
-
     //Paso configuracion_register_paso_pass_host
     @ViewById
     Button btnConfiguracionRegisterHostBotonCancelar;
     @ViewById
     EditText edtConfiguracionRegisterHostContenidoValor;
-
     //Paso configuracion_register_paso_pass_port
     @ViewById
     Button btnConfiguracionRegisterPortBotonCancelar;
     @ViewById
     EditText edtConfiguracionRegisterPortContenidoValor;
-
     //Paso configuracion_register_paso_pass_dispositivo
     @ViewById
     Button btnConfiguracionRegisterDispositivoBotonCancelar;
     @ViewById
     EditText edtConfiguracionRegisterDispositivoContenidoValor;
-
     //Model que almacena la configuracion del dispositivo
     Configurations modelConfiguration = new Configurations();
-
     String passwordAdmin = "";
-
     //Pasos definidos
     int pasoRegisterConfiguration = 0; //Define el paso actual
-
-    final static int PASO_PASS_TECNICO = 0;
-    final static int PASO_HOST = 1;
-    final static int PASO_PORT = 2;
-    final static int PASO_DISPOSITIVO = 3;
-
     //Creación del filtro para el ingreso de IP
     InputFilter inputFilter = new InputFilter() {
         @Override

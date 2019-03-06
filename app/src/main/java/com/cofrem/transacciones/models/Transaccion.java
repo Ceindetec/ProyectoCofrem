@@ -228,7 +228,7 @@ public class Transaccion {
         this.hora_server = hora_server;
     }
 
-    public  String getFullFechaServer(){
-        return  fecha_server + " " + hora_server;
+    public String getFullFechaServer() {
+        return fecha_server + " " + hora_server;
     }
 }

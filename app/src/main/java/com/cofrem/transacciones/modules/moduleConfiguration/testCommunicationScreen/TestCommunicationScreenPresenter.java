@@ -11,7 +11,6 @@ public interface TestCommunicationScreenPresenter {
     void testComunication(Context context);
 
 
-
     /**
      * metodo presentador
      */

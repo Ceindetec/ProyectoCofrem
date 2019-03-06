@@ -3,8 +3,8 @@ package com.cofrem.transacciones.modules.moduleConfiguration.configurationPrinte
 
 import android.content.Context;
 
-import com.cofrem.transacciones.modules.moduleConfiguration.configurationPrinter.events.ConfigurationPrinterScreenEvent;
 import com.cofrem.transacciones.models.ConfigurationPrinter;
+import com.cofrem.transacciones.modules.moduleConfiguration.configurationPrinter.events.ConfigurationPrinterScreenEvent;
 
 public interface ConfigurationPrinterScreenPresenter {
 
